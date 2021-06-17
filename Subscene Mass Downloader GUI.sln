@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subscene Mass Downloader GUI", "Subscene Mass Downloader GUI\Subscene Mass Downloader GUI.csproj", "{E27FEBDD-FA91-4A24-997E-744C3DB1A475}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubLibrary", "SubLibrary\SubLibrary.csproj", "{DF02C9C8-6AC7-4941-B971-88EB25E704F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E27FEBDD-FA91-4A24-997E-744C3DB1A475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E27FEBDD-FA91-4A24-997E-744C3DB1A475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E27FEBDD-FA91-4A24-997E-744C3DB1A475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E27FEBDD-FA91-4A24-997E-744C3DB1A475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF02C9C8-6AC7-4941-B971-88EB25E704F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF02C9C8-6AC7-4941-B971-88EB25E704F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF02C9C8-6AC7-4941-B971-88EB25E704F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF02C9C8-6AC7-4941-B971-88EB25E704F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E38C9875-52C7-4589-9FC3-FA0400E29E43}
+	EndGlobalSection
+EndGlobal

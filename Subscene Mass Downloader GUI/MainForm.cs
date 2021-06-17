@@ -199,7 +199,6 @@ namespace Subscene_Mass_Downloader_GUI
         }
         private async void btnDownload_Click(object sender, EventArgs e)
         {
-            onStartDownload();
             List<SubtitleModel> sub2Download = new List<SubtitleModel>();
             foreach (ListViewItem item in listViewSubs.Items)
             {
@@ -209,7 +208,12 @@ namespace Subscene_Mass_Downloader_GUI
                     sub2Download.Add(subtitle);
                 }
             }
-
+            if (sub2Download.Count == 0)
+            {
+                MessageBox.Show("Choose atleast one subtitle to download", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            onStartDownload();
             var downloaded = 0;
             await SubtitleManager.DownloadSubtitlesAsync(sub2Download, tbPath.Text, _ =>
             {

@@ -119,7 +119,7 @@ namespace Subscene_Mass_Downloader_GUI
 
             var langW = valueOfPercentage(10, w);
             var titleW = valueOfPercentage(60, w);
-            var ownerW = valueOfPercentage(15, w);
+            var ownerW = valueOfPercentage(13, w);
             var ratingW = valueOfPercentage(13, w);
             //var total = langW + titleW + ownerW + ratingW;
 

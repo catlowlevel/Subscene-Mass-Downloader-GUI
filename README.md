@@ -1,4 +1,4 @@
-# Subscene-Mass-Downloader-GUI
+# Subscene Mass Downloader GUI
 
 ### Download
  From release [page](https://github.com/LZNOXP/Subscene-Mass-Downloader-GUI/releases/)

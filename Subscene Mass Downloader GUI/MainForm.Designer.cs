@@ -65,7 +65,7 @@ namespace Subscene_Mass_Downloader_GUI
             // tbUrl
             // 
             this.tbUrl.Location = new System.Drawing.Point(25, 294);
-            this.tbUrl.Margin = new System.Windows.Forms.Padding(4);
+            this.tbUrl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbUrl.Name = "tbUrl";
             this.tbUrl.Size = new System.Drawing.Size(299, 22);
             this.tbUrl.TabIndex = 0;
@@ -75,7 +75,7 @@ namespace Subscene_Mass_Downloader_GUI
             // btnGetSubsList
             // 
             this.btnGetSubsList.Location = new System.Drawing.Point(25, 326);
-            this.btnGetSubsList.Margin = new System.Windows.Forms.Padding(4);
+            this.btnGetSubsList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnGetSubsList.Name = "btnGetSubsList";
             this.btnGetSubsList.Size = new System.Drawing.Size(145, 28);
             this.btnGetSubsList.TabIndex = 1;
@@ -97,15 +97,16 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelAction.Controls.Add(this.btnGetSubsList);
             this.panelAction.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelAction.Location = new System.Drawing.Point(0, 0);
-            this.panelAction.Margin = new System.Windows.Forms.Padding(4);
+            this.panelAction.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelAction.Name = "panelAction";
-            this.panelAction.Size = new System.Drawing.Size(338, 415);
+            this.panelAction.Size = new System.Drawing.Size(338, 423);
             this.panelAction.TabIndex = 2;
             // 
             // lblPosterStatus
             // 
             this.lblPosterStatus.AutoSize = true;
             this.lblPosterStatus.Location = new System.Drawing.Point(22, 9);
+            this.lblPosterStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPosterStatus.Name = "lblPosterStatus";
             this.lblPosterStatus.Size = new System.Drawing.Size(0, 17);
             this.lblPosterStatus.TabIndex = 8;
@@ -123,9 +124,9 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.pictureBoxPoster.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxPoster.Image")));
             this.pictureBoxPoster.Location = new System.Drawing.Point(24, 49);
-            this.pictureBoxPoster.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBoxPoster.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBoxPoster.Name = "pictureBoxPoster";
-            this.pictureBoxPoster.Size = new System.Drawing.Size(293, 221);
+            this.pictureBoxPoster.Size = new System.Drawing.Size(292, 221);
             this.pictureBoxPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxPoster.TabIndex = 5;
             this.pictureBoxPoster.TabStop = false;
@@ -143,7 +144,7 @@ namespace Subscene_Mass_Downloader_GUI
             // btnSearchTitle
             // 
             this.btnSearchTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSearchTitle.Location = new System.Drawing.Point(24, 380);
+            this.btnSearchTitle.Location = new System.Drawing.Point(24, 389);
             this.btnSearchTitle.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearchTitle.Name = "btnSearchTitle";
             this.btnSearchTitle.Size = new System.Drawing.Size(148, 28);
@@ -156,8 +157,8 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.btnDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDownload.Enabled = false;
-            this.btnDownload.Location = new System.Drawing.Point(178, 380);
-            this.btnDownload.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDownload.Location = new System.Drawing.Point(178, 389);
+            this.btnDownload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(148, 28);
             this.btnDownload.TabIndex = 5;
@@ -245,8 +246,8 @@ namespace Subscene_Mass_Downloader_GUI
             "Urdu",
             "Vietnamese",
             "Yoruba"});
-            this.comboBoxLang.Location = new System.Drawing.Point(173, 326);
-            this.comboBoxLang.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxLang.Location = new System.Drawing.Point(172, 326);
+            this.comboBoxLang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBoxLang.Name = "comboBoxLang";
             this.comboBoxLang.Size = new System.Drawing.Size(150, 24);
             this.comboBoxLang.TabIndex = 2;
@@ -263,24 +264,28 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelSave.Controls.Add(this.tbPath);
             this.panelSave.Controls.Add(this.btnSelectPath);
             this.panelSave.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelSave.Location = new System.Drawing.Point(0, 415);
-            this.panelSave.Margin = new System.Windows.Forms.Padding(4);
+            this.panelSave.Location = new System.Drawing.Point(0, 423);
+            this.panelSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelSave.Name = "panelSave";
-            this.panelSave.Size = new System.Drawing.Size(882, 88);
+            this.panelSave.Size = new System.Drawing.Size(884, 88);
             this.panelSave.TabIndex = 3;
             // 
             // lblElapsed
             // 
+            this.lblElapsed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblElapsed.AutoSize = true;
-            this.lblElapsed.Location = new System.Drawing.Point(732, 62);
+            this.lblElapsed.Location = new System.Drawing.Point(778, 63);
+            this.lblElapsed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblElapsed.Name = "lblElapsed";
-            this.lblElapsed.Size = new System.Drawing.Size(0, 17);
+            this.lblElapsed.Size = new System.Drawing.Size(94, 17);
             this.lblElapsed.TabIndex = 9;
+            this.lblElapsed.Text = "Elapsed Time";
             // 
             // lblPath
             // 
             this.lblPath.AutoSize = true;
             this.lblPath.Location = new System.Drawing.Point(15, 11);
+            this.lblPath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPath.Name = "lblPath";
             this.lblPath.Size = new System.Drawing.Size(91, 17);
             this.lblPath.TabIndex = 7;
@@ -300,10 +305,10 @@ namespace Subscene_Mass_Downloader_GUI
             // pbDownload
             // 
             this.pbDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbDownload.Location = new System.Drawing.Point(18, 37);
+            this.pbDownload.Location = new System.Drawing.Point(18, 38);
             this.pbDownload.Margin = new System.Windows.Forms.Padding(2);
             this.pbDownload.Name = "pbDownload";
-            this.pbDownload.Size = new System.Drawing.Size(858, 22);
+            this.pbDownload.Size = new System.Drawing.Size(860, 22);
             this.pbDownload.TabIndex = 5;
             this.toolTip1.SetToolTip(this.pbDownload, "Download Progress Bar");
             // 
@@ -311,19 +316,19 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.tbPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tbPath.Enabled = false;
-            this.tbPath.Location = new System.Drawing.Point(113, 7);
+            this.tbPath.Location = new System.Drawing.Point(112, 8);
             this.tbPath.Margin = new System.Windows.Forms.Padding(4, 4, 28, 4);
             this.tbPath.Name = "tbPath";
             this.tbPath.ReadOnly = true;
-            this.tbPath.Size = new System.Drawing.Size(730, 22);
+            this.tbPath.Size = new System.Drawing.Size(733, 22);
             this.tbPath.TabIndex = 0;
             this.toolTip1.SetToolTip(this.tbPath, "Downloaded Subtitle(s) saved to this path");
             // 
             // btnSelectPath
             // 
             this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectPath.Location = new System.Drawing.Point(844, 6);
-            this.btnSelectPath.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSelectPath.Location = new System.Drawing.Point(846, 6);
+            this.btnSelectPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSelectPath.Name = "btnSelectPath";
             this.btnSelectPath.Size = new System.Drawing.Size(32, 25);
             this.btnSelectPath.TabIndex = 1;
@@ -344,9 +349,9 @@ namespace Subscene_Mass_Downloader_GUI
             this.listViewSubs.FullRowSelect = true;
             this.listViewSubs.HideSelection = false;
             this.listViewSubs.Location = new System.Drawing.Point(338, 0);
-            this.listViewSubs.Margin = new System.Windows.Forms.Padding(4);
+            this.listViewSubs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listViewSubs.Name = "listViewSubs";
-            this.listViewSubs.Size = new System.Drawing.Size(544, 415);
+            this.listViewSubs.Size = new System.Drawing.Size(546, 423);
             this.listViewSubs.TabIndex = 4;
             this.listViewSubs.UseCompatibleStateImageBehavior = false;
             this.listViewSubs.View = System.Windows.Forms.View.Details;
@@ -383,13 +388,13 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(882, 503);
+            this.ClientSize = new System.Drawing.Size(884, 511);
             this.Controls.Add(this.listViewSubs);
             this.Controls.Add(this.panelAction);
             this.Controls.Add(this.panelSave);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(900, 550);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(899, 548);
             this.Name = "mainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Subscene Mass Downloader GUI";

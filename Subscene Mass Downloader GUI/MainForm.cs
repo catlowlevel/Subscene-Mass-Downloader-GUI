@@ -24,6 +24,7 @@ namespace Subscene_Mass_Downloader_GUI
             tbUrl.Text = "https://subscene.com/subtitles/chicago-typewriter-sikago-tajagi";
 
             updateListViewColumnWitdh();
+            updateLabelElapsedTimePosition();
 
             _subsceneImage = (Image)pictureBoxPoster.Image.Clone();
             _searchForm = new SearchForm();
@@ -128,6 +129,10 @@ namespace Subscene_Mass_Downloader_GUI
             listViewSubs.Columns["colRating"].Width = (int)ratingW;
         }
 
+        private void updateLabelElapsedTimePosition()
+        {
+            lblElapsed.Location = new Point(panelSave.Width - (int)(lblElapsed.Width * 1.1m), panelSave.Height - (int)(lblElapsed.Height * 1.5m));
+        }
         private decimal valueOfPercentage(decimal percentage, decimal num)
         {
             return (percentage * 0.01m) * num;
@@ -282,7 +287,7 @@ namespace Subscene_Mass_Downloader_GUI
 
         private void mainWindow_Resize(object sender, EventArgs e)
         {
-            lblElapsed.Location = new Point(Width - (int)(lblElapsed.Width * 1.2m), lblElapsed.Location.Y);
+            updateLabelElapsedTimePosition();
             if (listViewSubs.Items.Count == 0)
                 updateListViewColumnWitdh();
         }
@@ -300,7 +305,7 @@ namespace Subscene_Mass_Downloader_GUI
         private void timerElapsedCounter_Tick(object sender, EventArgs e)
         {
             lblElapsed.Text = $"Elapsed {String.Format("{0:0.00}", stopwatch.Elapsed.TotalSeconds)} s";
-            lblElapsed.Location = new Point(Width - (int)(lblElapsed.Width * 1.2m), lblElapsed.Location.Y);
+            updateLabelElapsedTimePosition();
         }
         private void tbUrl_TextChanged(object sender, EventArgs e)
         {

@@ -205,13 +205,11 @@ namespace Subscene_Mass_Downloader_GUI
         private async void btnDownload_Click(object sender, EventArgs e)
         {
             List<SubtitleModel> sub2Download = new List<SubtitleModel>();
-            foreach (ListViewItem item in listViewSubs.Items)
+            var selectedTag = listViewSubs.CheckedItems.Cast<ListViewItem>().Select(x => x.Tag);
+            foreach (var tag in selectedTag)
             {
-                if (item.Checked)
-                {
-                    SubtitleModel subtitle = (SubtitleModel)item.Tag;
-                    sub2Download.Add(subtitle);
-                }
+                SubtitleModel subtitle = (SubtitleModel)tag;
+                sub2Download.Add(subtitle);
             }
             if (sub2Download.Count == 0)
             {

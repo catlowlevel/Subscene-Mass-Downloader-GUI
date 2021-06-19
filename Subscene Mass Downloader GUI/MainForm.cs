@@ -117,13 +117,14 @@ namespace Subscene_Mass_Downloader_GUI
         {
             int w = listViewSubs.Size.Width;
 
-            var langW = valueOfPercentage(10, w);
-            var titleW = valueOfPercentage(60, w);
-            var ownerW = valueOfPercentage(13, w);
-            var ratingW = valueOfPercentage(13, w);
+            //var langW = valueOfPercentage(10, w);
+            var langW = 100;
+            var titleW = valueOfPercentage(60,  w-langW);
+            var ownerW = valueOfPercentage(17,  w-langW);
+            var ratingW = valueOfPercentage(17,  w-langW);
             //var total = langW + titleW + ownerW + ratingW;
 
-            listViewSubs.Columns["colLang"].Width = (int)langW;
+            listViewSubs.Columns["colLang"].Width = langW;
             listViewSubs.Columns["colTitle"].Width = (int)titleW;
             listViewSubs.Columns["colOwner"].Width = (int)ownerW;
             listViewSubs.Columns["colRating"].Width = (int)ratingW;

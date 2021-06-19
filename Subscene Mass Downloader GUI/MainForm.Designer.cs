@@ -65,7 +65,7 @@ namespace Subscene_Mass_Downloader_GUI
             // tbUrl
             // 
             this.tbUrl.Location = new System.Drawing.Point(25, 294);
-            this.tbUrl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbUrl.Margin = new System.Windows.Forms.Padding(4);
             this.tbUrl.Name = "tbUrl";
             this.tbUrl.Size = new System.Drawing.Size(299, 22);
             this.tbUrl.TabIndex = 0;
@@ -75,7 +75,7 @@ namespace Subscene_Mass_Downloader_GUI
             // btnGetSubsList
             // 
             this.btnGetSubsList.Location = new System.Drawing.Point(25, 326);
-            this.btnGetSubsList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGetSubsList.Margin = new System.Windows.Forms.Padding(4);
             this.btnGetSubsList.Name = "btnGetSubsList";
             this.btnGetSubsList.Size = new System.Drawing.Size(145, 28);
             this.btnGetSubsList.TabIndex = 1;
@@ -97,7 +97,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelAction.Controls.Add(this.btnGetSubsList);
             this.panelAction.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelAction.Location = new System.Drawing.Point(0, 0);
-            this.panelAction.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelAction.Margin = new System.Windows.Forms.Padding(4);
             this.panelAction.Name = "panelAction";
             this.panelAction.Size = new System.Drawing.Size(338, 423);
             this.panelAction.TabIndex = 2;
@@ -124,7 +124,7 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.pictureBoxPoster.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxPoster.Image")));
             this.pictureBoxPoster.Location = new System.Drawing.Point(24, 49);
-            this.pictureBoxPoster.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBoxPoster.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxPoster.Name = "pictureBoxPoster";
             this.pictureBoxPoster.Size = new System.Drawing.Size(292, 221);
             this.pictureBoxPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -158,7 +158,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.btnDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDownload.Enabled = false;
             this.btnDownload.Location = new System.Drawing.Point(178, 389);
-            this.btnDownload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDownload.Margin = new System.Windows.Forms.Padding(4);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(148, 28);
             this.btnDownload.TabIndex = 5;
@@ -247,7 +247,7 @@ namespace Subscene_Mass_Downloader_GUI
             "Vietnamese",
             "Yoruba"});
             this.comboBoxLang.Location = new System.Drawing.Point(172, 326);
-            this.comboBoxLang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxLang.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxLang.Name = "comboBoxLang";
             this.comboBoxLang.Size = new System.Drawing.Size(150, 24);
             this.comboBoxLang.TabIndex = 2;
@@ -265,7 +265,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelSave.Controls.Add(this.btnSelectPath);
             this.panelSave.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelSave.Location = new System.Drawing.Point(0, 423);
-            this.panelSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelSave.Margin = new System.Windows.Forms.Padding(4);
             this.panelSave.Name = "panelSave";
             this.panelSave.Size = new System.Drawing.Size(884, 88);
             this.panelSave.TabIndex = 3;
@@ -328,7 +328,7 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSelectPath.Location = new System.Drawing.Point(846, 6);
-            this.btnSelectPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSelectPath.Margin = new System.Windows.Forms.Padding(4);
             this.btnSelectPath.Name = "btnSelectPath";
             this.btnSelectPath.Size = new System.Drawing.Size(32, 25);
             this.btnSelectPath.TabIndex = 1;
@@ -349,7 +349,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.listViewSubs.FullRowSelect = true;
             this.listViewSubs.HideSelection = false;
             this.listViewSubs.Location = new System.Drawing.Point(338, 0);
-            this.listViewSubs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listViewSubs.Margin = new System.Windows.Forms.Padding(4);
             this.listViewSubs.Name = "listViewSubs";
             this.listViewSubs.Size = new System.Drawing.Size(546, 423);
             this.listViewSubs.TabIndex = 4;
@@ -360,7 +360,7 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.colLang.Name = "colLang";
             this.colLang.Text = "Language";
-            this.colLang.Width = 78;
+            this.colLang.Width = 84;
             // 
             // colTitle
             // 
@@ -393,7 +393,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.Controls.Add(this.panelAction);
             this.Controls.Add(this.panelSave);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(899, 548);
             this.Name = "mainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

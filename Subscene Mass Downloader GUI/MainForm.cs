@@ -174,7 +174,7 @@ namespace Subscene_Mass_Downloader_GUI
                 MessageBox.Show(ex.Message);
                 return;
             }
-
+            ctbFilter.Tag = subList;
             refreshComboBoxLang(subList);
             listSubsToListView(subList, comboBoxLangValue);
 
@@ -328,6 +328,16 @@ namespace Subscene_Mass_Downloader_GUI
                 }
             }
         }
+
+        private void ctbFilter_TextChanged(object sender, EventArgs e)
+        {
+            var subList = ((CTextBox)sender).Tag as List<SubtitleModel>;
+            List<SubtitleModel> filteredSubtitle = new List<SubtitleModel>();
+            filteredSubtitle.AddRange(subList.Where(i => string.IsNullOrEmpty(ctbFilter.Text) || i.Title.ToLower().Contains(ctbFilter.Text.ToLower())).ToArray());
+            listSubsToListView(filteredSubtitle, comboBoxLangValue);
+        }
+
+
         #endregion
     }
 }

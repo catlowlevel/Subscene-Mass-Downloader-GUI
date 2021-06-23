@@ -57,10 +57,14 @@ namespace Subscene_Mass_Downloader_GUI
             this.colRating = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timerElapsedCounter = new System.Windows.Forms.Timer(this.components);
+            this.panelFilter = new System.Windows.Forms.Panel();
+            this.cbRegex = new System.Windows.Forms.CheckBox();
+            this.panelSeperator = new System.Windows.Forms.Panel();
             this.ctbFilter = new Subscene_Mass_Downloader_GUI.CTextBox();
             this.panelAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPoster)).BeginInit();
             this.panelSave.SuspendLayout();
+            this.panelFilter.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbUrl
@@ -375,14 +379,46 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.timerElapsedCounter.Tick += new System.EventHandler(this.timerElapsedCounter_Tick);
             // 
+            // panelFilter
+            // 
+            this.panelFilter.Controls.Add(this.ctbFilter);
+            this.panelFilter.Controls.Add(this.panelSeperator);
+            this.panelFilter.Controls.Add(this.cbRegex);
+            this.panelFilter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelFilter.Location = new System.Drawing.Point(270, 316);
+            this.panelFilter.Name = "panelFilter";
+            this.panelFilter.Size = new System.Drawing.Size(437, 22);
+            this.panelFilter.TabIndex = 6;
+            // 
+            // cbRegex
+            // 
+            this.cbRegex.AutoSize = true;
+            this.cbRegex.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbRegex.Location = new System.Drawing.Point(380, 0);
+            this.cbRegex.Name = "cbRegex";
+            this.cbRegex.Size = new System.Drawing.Size(57, 22);
+            this.cbRegex.TabIndex = 6;
+            this.cbRegex.Text = "Regex";
+            this.cbRegex.UseVisualStyleBackColor = true;
+            this.cbRegex.CheckedChanged += new System.EventHandler(this.cbRegex_CheckedChanged);
+            // 
+            // panelSeperator
+            // 
+            this.panelSeperator.BackColor = System.Drawing.SystemColors.Control;
+            this.panelSeperator.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelSeperator.Location = new System.Drawing.Point(375, 0);
+            this.panelSeperator.Name = "panelSeperator";
+            this.panelSeperator.Size = new System.Drawing.Size(5, 22);
+            this.panelSeperator.TabIndex = 7;
+            // 
             // ctbFilter
             // 
-            this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ctbFilter.Location = new System.Drawing.Point(270, 318);
+            this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctbFilter.Location = new System.Drawing.Point(0, 0);
             this.ctbFilter.Name = "ctbFilter";
-            this.ctbFilter.Size = new System.Drawing.Size(437, 20);
+            this.ctbFilter.Size = new System.Drawing.Size(375, 20);
             this.ctbFilter.TabIndex = 5;
-            this.ctbFilter.WaterMark = "Filter";
+            this.ctbFilter.WaterMark = "Filter Title";
             this.ctbFilter.WaterMarkActiveForeColor = System.Drawing.Color.Gray;
             this.ctbFilter.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ctbFilter.WaterMarkForeColor = System.Drawing.Color.Gray;
@@ -393,7 +429,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(707, 409);
-            this.Controls.Add(this.ctbFilter);
+            this.Controls.Add(this.panelFilter);
             this.Controls.Add(this.listViewSubs);
             this.Controls.Add(this.panelAction);
             this.Controls.Add(this.panelSave);
@@ -409,8 +445,9 @@ namespace Subscene_Mass_Downloader_GUI
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPoster)).EndInit();
             this.panelSave.ResumeLayout(false);
             this.panelSave.PerformLayout();
+            this.panelFilter.ResumeLayout(false);
+            this.panelFilter.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -441,6 +478,9 @@ namespace Subscene_Mass_Downloader_GUI
         private System.Windows.Forms.Label lblElapsed;
         private System.Windows.Forms.Timer timerElapsedCounter;
         private CTextBox ctbFilter;
+        private System.Windows.Forms.Panel panelFilter;
+        private System.Windows.Forms.Panel panelSeperator;
+        private System.Windows.Forms.CheckBox cbRegex;
     }
 }
 

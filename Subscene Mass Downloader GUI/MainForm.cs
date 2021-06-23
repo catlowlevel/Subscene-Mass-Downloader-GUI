@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
@@ -119,9 +120,9 @@ namespace Subscene_Mass_Downloader_GUI
 
             //var langW = valueOfPercentage(10, w);
             var langW = 100;
-            var titleW = valueOfPercentage(60,  w-langW);
-            var ownerW = valueOfPercentage(17,  w-langW);
-            var ratingW = valueOfPercentage(17,  w-langW);
+            var titleW = valueOfPercentage(60, w - langW);
+            var ownerW = valueOfPercentage(17, w - langW);
+            var ratingW = valueOfPercentage(17, w - langW);
             //var total = langW + titleW + ownerW + ratingW;
 
             listViewSubs.Columns["colLang"].Width = langW;
@@ -333,10 +334,31 @@ namespace Subscene_Mass_Downloader_GUI
         {
             var subList = ((CTextBox)sender).Tag as List<SubtitleModel>;
             List<SubtitleModel> filteredSubtitle = new List<SubtitleModel>();
-            filteredSubtitle.AddRange(subList.Where(i => string.IsNullOrEmpty(ctbFilter.Text) || i.Title.ToLower().Contains(ctbFilter.Text.ToLower())).ToArray());
-            listSubsToListView(filteredSubtitle, comboBoxLangValue);
+            try
+            {
+
+                if (cbRegex.Checked)
+                {
+                    var reg = new Regex(ctbFilter.Text.ToLower());
+                    filteredSubtitle.AddRange(subList.Where(i => string.IsNullOrEmpty(ctbFilter.Text) || reg.Match(i.Title.ToLower()).Success).ToArray());
+                }
+                else
+                {
+                    filteredSubtitle.AddRange(subList.Where(i => string.IsNullOrEmpty(ctbFilter.Text) || i.Title.ToLower().Contains(ctbFilter.Text.ToLower())).ToArray());
+                }
+                listSubsToListView(filteredSubtitle, comboBoxLangValue);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
+
+        private void cbRegex_CheckedChanged(object sender, EventArgs e)
+        {
+            ctbFilter_TextChanged(ctbFilter, e);
+        }
 
         #endregion
     }

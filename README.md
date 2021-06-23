@@ -9,10 +9,12 @@
 ### Preview
 <img src="preview.png" width="720">
 
-
+### Issue
 If somehow [https://subscene.com/](https://subscene.com/) is blocked by your ISP, add these lines to your hosts file located at `C:\Windows\System32\drivers\etc\hosts`
 
 ```
 104.27.207.92 subscene.com www.subscene.com forum.subscene.com c.subscene.com papi.subscene.com
 104.27.206.92 v2.subscene.com u.subscene.com
 ```
+
+or Use [this application](https://github.com/LZNOXP/Subscene-Mass-Downloader-GUI/releases/download/1.3/Subscene.Unblocker.exe) (automatically perform the action above)

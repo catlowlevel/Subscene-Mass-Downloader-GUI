@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subscene Mass Downloader GU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubLibrary", "SubLibrary\SubLibrary.csproj", "{DF02C9C8-6AC7-4941-B971-88EB25E704F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subscene Unblocker", "Subscene Unblocker\Subscene Unblocker.csproj", "{F5203FB0-0734-4CE4-AA89-6CB1DC9E3C63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DF02C9C8-6AC7-4941-B971-88EB25E704F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF02C9C8-6AC7-4941-B971-88EB25E704F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF02C9C8-6AC7-4941-B971-88EB25E704F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5203FB0-0734-4CE4-AA89-6CB1DC9E3C63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5203FB0-0734-4CE4-AA89-6CB1DC9E3C63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5203FB0-0734-4CE4-AA89-6CB1DC9E3C63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5203FB0-0734-4CE4-AA89-6CB1DC9E3C63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

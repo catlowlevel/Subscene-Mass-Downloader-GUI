@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
@@ -119,9 +120,9 @@ namespace Subscene_Mass_Downloader_GUI
 
             //var langW = valueOfPercentage(10, w);
             var langW = 100;
-            var titleW = valueOfPercentage(60,  w-langW);
-            var ownerW = valueOfPercentage(17,  w-langW);
-            var ratingW = valueOfPercentage(17,  w-langW);
+            var titleW = valueOfPercentage(60, w - langW);
+            var ownerW = valueOfPercentage(17, w - langW);
+            var ratingW = valueOfPercentage(17, w - langW);
             //var total = langW + titleW + ownerW + ratingW;
 
             listViewSubs.Columns["colLang"].Width = langW;
@@ -174,7 +175,7 @@ namespace Subscene_Mass_Downloader_GUI
                 MessageBox.Show(ex.Message);
                 return;
             }
-
+            ctbFilter.Tag = subList;
             refreshComboBoxLang(subList);
             listSubsToListView(subList, comboBoxLangValue);
 
@@ -287,7 +288,7 @@ namespace Subscene_Mass_Downloader_GUI
         private void mainWindow_Resize(object sender, EventArgs e)
         {
             updateLabelElapsedTimePosition();
-            if (listViewSubs.Items.Count == 0)
+            if (listViewSubs.Items.Count == 0 || WindowState == FormWindowState.Maximized)
                 updateListViewColumnWitdh();
         }
 
@@ -328,6 +329,38 @@ namespace Subscene_Mass_Downloader_GUI
                 }
             }
         }
+
+        private void ctbFilter_TextChanged(object sender, EventArgs e)
+        {
+            var subList = ((CTextBox)sender).Tag as List<SubtitleModel>;
+            List<SubtitleModel> filteredSubtitle = new List<SubtitleModel>();
+            try
+            {
+
+                if (cbRegex.Checked)
+                {
+                    var reg = new Regex(ctbFilter.Text.ToLower());
+                    filteredSubtitle.AddRange(subList.Where(i => string.IsNullOrEmpty(ctbFilter.Text) || reg.Match(i.Title.ToLower()).Success).ToArray());
+                }
+                else
+                {
+                    filteredSubtitle.AddRange(subList.Where(i => string.IsNullOrEmpty(ctbFilter.Text) || i.Title.ToLower().Contains(ctbFilter.Text.ToLower())).ToArray());
+                }
+                listSubsToListView(filteredSubtitle, comboBoxLangValue);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+
+        private void cbRegex_CheckedChanged(object sender, EventArgs e)
+        {
+            ctbFilter_TextChanged(ctbFilter, null);
+            ctbFilter.Focus();
+        }
+
         #endregion
     }
 }

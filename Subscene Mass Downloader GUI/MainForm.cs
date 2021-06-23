@@ -288,7 +288,7 @@ namespace Subscene_Mass_Downloader_GUI
         private void mainWindow_Resize(object sender, EventArgs e)
         {
             updateLabelElapsedTimePosition();
-            if (listViewSubs.Items.Count == 0)
+            if (listViewSubs.Items.Count == 0 || WindowState == FormWindowState.Maximized)
                 updateListViewColumnWitdh();
         }
 
@@ -357,7 +357,8 @@ namespace Subscene_Mass_Downloader_GUI
 
         private void cbRegex_CheckedChanged(object sender, EventArgs e)
         {
-            ctbFilter_TextChanged(ctbFilter, e);
+            ctbFilter_TextChanged(ctbFilter, null);
+            ctbFilter.Focus();
         }
 
         #endregion

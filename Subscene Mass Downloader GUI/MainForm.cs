@@ -16,6 +16,7 @@ namespace Subscene_Mass_Downloader_GUI
         private static Image _subsceneImage;
         private static SearchForm _searchForm;
         private static AnimateText _animateLblPosterStatus;
+        private static AnimateText _animateLblDlStatus;
         private static ListViewColumnSorter lvwColumnSorter;
         public mainWindow()
         {
@@ -35,6 +36,14 @@ namespace Subscene_Mass_Downloader_GUI
 
             _animateLblPosterStatus = new AnimateText(lblPosterStatus, "", 300,
                 "Loading.", "Loading..", "Loading...", "Loading..");
+
+            _animateLblDlStatus = new AnimateText(lblDownloadStatus, "", 400,
+                "Fetching Data.",
+                "Fetching Data..",
+                "Fetching Data...",
+                "Fetching Data..",
+                "Fetching Data."
+                );
         }
 
         private void refreshComboBoxLang(List<SubtitleModel> subtitles)
@@ -203,6 +212,7 @@ namespace Subscene_Mass_Downloader_GUI
             btnDownload.Enabled = true;
             stopwatch.Stop();
             timerElapsedCounter.Stop();
+            _animateLblDlStatus.Stop();
         }
         private async void btnDownload_Click(object sender, EventArgs e)
         {
@@ -220,23 +230,33 @@ namespace Subscene_Mass_Downloader_GUI
                 return;
             }
             onStartDownload();
-            var downloaded = 0;
             List<Task<string>> tasks = null;
+            var downloaded = 0;
+            bool once = true;
+            var __ = _animateLblDlStatus.Start();
             await SubtitleManager.DownloadSubtitlesAsync(sub2Download, tbPath.Text, _ =>
             {
                 var count = _.Count(task => task.IsCompleted);
                 var total = _.Count;
                 pbDownload.Value = (count * 100) / total;
                 downloaded = count;
-                lblDownloadStatus.Text = $"{pbDownload.Value}% | {count}/{total} Downloading";
+                if (downloaded > 0)
+                {
+                    lblDownloadStatus.Text = $"{pbDownload.Value}% | {count}/{total} Downloading";
+                    if (once)
+                    {
+                        _animateLblDlStatus.Stop();
+                    }
+                    once = false;
+                }
                 if (tasks == null) tasks = _;
             });
 
             //TODO: Log the reason for this fails
             var fail = tasks.Count(t => t.IsFaulted);
 
-            lblDownloadStatus.Text = $"{downloaded - fail}/{sub2Download.Count} Subtitle(s) Downloaded";
             onStopDownload();
+            lblDownloadStatus.Text = $"{downloaded - fail}/{sub2Download.Count} Subtitle(s) Downloaded";
             MessageBox.Show(null, "Done", "SMD", MessageBoxButtons.OK, fail == 0 ? MessageBoxIcon.Information : MessageBoxIcon.Exclamation);
         }
 

@@ -221,18 +221,23 @@ namespace Subscene_Mass_Downloader_GUI
             }
             onStartDownload();
             var downloaded = 0;
+            List<Task<string>> tasks = null;
             await SubtitleManager.DownloadSubtitlesAsync(sub2Download, tbPath.Text, _ =>
             {
                 var count = _.Count(task => task.IsCompleted);
                 var total = _.Count;
                 pbDownload.Value = (count * 100) / total;
                 downloaded = count;
-                lblDownloadStatus.Text = $"{pbDownload.Value}% | {count}/{total} Downloaded";
+                lblDownloadStatus.Text = $"{pbDownload.Value}% | {count}/{total} Downloading";
+                if (tasks == null) tasks = _;
             });
 
-            lblDownloadStatus.Text = $"{downloaded} Subtitle(s) Downloaded";
+            //TODO: Log the reason for this fails
+            var fail = tasks.Count(t => t.IsFaulted);
+
+            lblDownloadStatus.Text = $"{downloaded - fail}/{sub2Download.Count} Subtitle(s) Downloaded";
             onStopDownload();
-            MessageBox.Show(null, "Done", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(null, "Done", "SMD", MessageBoxButtons.OK, fail == 0 ? MessageBoxIcon.Information : MessageBoxIcon.Exclamation);
         }
 
         private void btnSelectPath_Click(object sender, EventArgs e)

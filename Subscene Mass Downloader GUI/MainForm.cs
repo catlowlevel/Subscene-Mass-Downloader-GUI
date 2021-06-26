@@ -208,14 +208,15 @@ namespace Subscene_Mass_Downloader_GUI
         {
             List<SubtitleModel> sub2Download = new List<SubtitleModel>();
             var selectedTag = listViewSubs.CheckedItems.Cast<ListViewItem>().Select(x => x.Tag);
-            foreach (var tag in selectedTag)
-            {
-                SubtitleModel subtitle = (SubtitleModel)tag;
-                sub2Download.Add(subtitle);
-            }
+            sub2Download.AddRange(selectedTag.Cast<SubtitleModel>());
+            //foreach (var tag in selectedTag)
+            //{
+            //    SubtitleModel subtitle = (SubtitleModel)tag;
+            //    sub2Download.Add(subtitle);
+            //}
             if (sub2Download.Count == 0)
             {
-                MessageBox.Show("Choose atleast one subtitle to download", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Check atleast one subtitle to download", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             onStartDownload();

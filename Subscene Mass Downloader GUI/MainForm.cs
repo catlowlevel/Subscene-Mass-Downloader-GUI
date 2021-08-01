@@ -19,6 +19,7 @@ namespace Subscene_Mass_Downloader_GUI
         private AnimateText _animateLblPosterStatus;
         private AnimateText _animateLblDlStatus;
         private ListViewColumnSorter lvwColumnSorter;
+        private bool lvProcessing = false;
         public mainWindow()
         {
             InitializeComponent();
@@ -98,7 +99,6 @@ namespace Subscene_Mass_Downloader_GUI
             return lvItems.Count();
         }
 
-        private bool lvProcessing = false;
         private void listSubsToListView(List<SubtitleModel> subtitles, string lang,string filter = null)
         {
             if (lvProcessing) return;

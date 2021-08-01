@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SubLibrary
 {
-    public class Utility
+    public static class Utility
     {
         private static HashSet<char> _allowedChars = new HashSet<char>(" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-.".ToArray());
         private static HashSet<char> _unallowedChars = new HashSet<char>("\t\n\r\b\\/:*?\"<>|".ToArray());
@@ -24,8 +24,16 @@ namespace SubLibrary
             return new String(buffer, 0, index);
         }
 
-        public static async Task WhenAllEx<T>(List<Task<T>> tasks, Action<List<Task<T>>> reportProgressAction)
 
+        public static IEnumerable<List<T>> SplitList<T>(List<T> locations, int nSize = 30)
+        {
+            //https://stackoverflow.com/a/11463800
+            for (int i = 0; i < locations.Count; i += nSize)
+            {
+                yield return locations.GetRange(i, Math.Min(nSize, locations.Count - i));
+            }
+        }
+        public static async Task WhenAllEx<T>(List<Task<T>> tasks, Action<List<Task<T>>> reportProgressAction)
         {
             // get Task which completes when all 'tasks' have completed
             var whenAllTask = Task.WhenAll(tasks);

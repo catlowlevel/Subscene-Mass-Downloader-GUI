@@ -13,12 +13,12 @@ namespace Subscene_Mass_Downloader_GUI
 {
     public partial class mainWindow : Form
     {
-        private static Stopwatch stopwatch;
-        private static Image _subsceneImage;
-        private static SearchForm _searchForm;
-        private static AnimateText _animateLblPosterStatus;
-        private static AnimateText _animateLblDlStatus;
-        private static ListViewColumnSorter lvwColumnSorter;
+        private Stopwatch stopwatch;
+        private Image _subsceneImage;
+        private SearchForm _searchForm;
+        private AnimateText _animateLblPosterStatus;
+        private AnimateText _animateLblDlStatus;
+        private ListViewColumnSorter lvwColumnSorter;
         public mainWindow()
         {
             InitializeComponent();
@@ -68,14 +68,6 @@ namespace Subscene_Mass_Downloader_GUI
         }
         private string comboBoxLangValue => comboBoxLang.SelectedItem.ToString();
 
-        public static IEnumerable<List<T>> SplitList<T>(List<T> locations, int nSize = 30)
-        {
-            //https://stackoverflow.com/a/11463800
-            for (int i = 0; i < locations.Count; i += nSize)
-            {
-                yield return locations.GetRange(i, Math.Min(nSize, locations.Count - i));
-            }
-        }
         private int addSubsToListView(List<SubtitleModel> subtitles, string lang)
         {
             var lvItems = subtitles.Select(subtitle =>
@@ -114,7 +106,7 @@ namespace Subscene_Mass_Downloader_GUI
             listViewSubs.Items.Clear();
             listViewSubs.ListViewItemSorter = null;
 
-            var subsChunks = SplitList(subtitles, 100);
+            var subsChunks = Utility.SplitList(subtitles, 100);
 
             int subCount = 0;
             foreach (var subs in subsChunks)

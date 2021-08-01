@@ -15,7 +15,7 @@ namespace Subscene_Mass_Downloader_GUI
         {
             InitializeComponent();
 
-            tbTitle.Text = "typewriter";
+            tbTitle.Text = "breaking";
             AcceptButton = btnSearch;
 
             _exitBtn = new Button();

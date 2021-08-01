@@ -24,7 +24,7 @@ namespace Subscene_Mass_Downloader_GUI
             InitializeComponent();
             var path = Properties.Settings.Default.lastPath;
             tbPath.Text = string.IsNullOrEmpty(path) ? Application.StartupPath : path;
-            tbUrl.Text = "https://subscene.com/subtitles/chicago-typewriter-sikago-tajagi";
+            tbUrl.Text = "https://subscene.com/subtitles/breaking-bad-first-season";
 
             listViewSubs.GetType()
             .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
@@ -66,7 +66,7 @@ namespace Subscene_Mass_Downloader_GUI
             }
             comboBoxLang.SelectedIndex = 0;
         }
-        private string comboBoxLangValue => comboBoxLang.SelectedItem.ToString();
+        private string comboBoxLangValue => comboBoxLang.SelectedItem?.ToString();
 
         private int addSubsToListView(List<SubtitleModel> subtitles, string lang)
         {
@@ -422,9 +422,17 @@ namespace Subscene_Mass_Downloader_GUI
 
         private void ctbFilter_TextChanged(object sender, EventArgs e)
         {
-            var subList = ((CTextBox)sender).Tag as List<SubtitleModel>;
-            subList = filterSubtitles(subList, ctbFilter.Text);
-            listSubsToListView(subList, comboBoxLangValue);
+            try
+            {
+                if (string.IsNullOrEmpty(comboBoxLangValue)) return;
+                var subList = ((CTextBox)sender).Tag as List<SubtitleModel>;
+                subList = filterSubtitles(subList, ctbFilter.Text);
+                listSubsToListView(subList, comboBoxLangValue);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
 

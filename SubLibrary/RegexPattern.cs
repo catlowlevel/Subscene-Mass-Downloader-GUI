@@ -1,6 +1,6 @@
 ﻿namespace SubLibrary
 {
-    public class RegexPattern
+    public static class RegexPattern
     {
         public static string ShowReleaseYear { get; } = "<strong>\\s*Year:\\s*.*\\s*(.+)\\s*";
         public static string ShowTitle { get; } = "<div class=\"header\">\\s*.*\\s*(.+)\\s*";

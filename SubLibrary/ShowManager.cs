@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SubLibrary
 {
-    public class ShowManager
+    public static class ShowManager
     {
         public static string subSearchApi = "https://subscene.com/subtitles/searchbytitle?query={0}";
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SubLibrary
 {
-    public class SubtitleManager
+    public static class SubtitleManager
     {
         public static string baseUrl = "https://subscene.com{0}";
 

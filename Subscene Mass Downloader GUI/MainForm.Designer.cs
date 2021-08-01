@@ -381,9 +381,9 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             // panelFilter
             // 
+            this.panelFilter.Controls.Add(this.ctbFilter);
             this.panelFilter.Controls.Add(this.panelSeperator);
             this.panelFilter.Controls.Add(this.cbRegex);
-            this.panelFilter.Controls.Add(this.ctbFilter);
             this.panelFilter.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelFilter.Location = new System.Drawing.Point(270, 316);
             this.panelFilter.Name = "panelFilter";
@@ -417,7 +417,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ctbFilter.Location = new System.Drawing.Point(0, 0);
             this.ctbFilter.Name = "ctbFilter";
-            this.ctbFilter.Size = new System.Drawing.Size(437, 20);
+            this.ctbFilter.Size = new System.Drawing.Size(378, 20);
             this.ctbFilter.TabIndex = 5;
             this.ctbFilter.WaterMark = "Filter";
             this.ctbFilter.WaterMarkActiveForeColor = System.Drawing.Color.Gray;

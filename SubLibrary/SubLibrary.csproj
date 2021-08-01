@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimateText.cs" />
+    <Compile Include="ShowInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexMatch.cs" />
     <Compile Include="RegexPattern.cs" />

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -24,6 +25,11 @@ namespace Subscene_Mass_Downloader_GUI
             var path = Properties.Settings.Default.lastPath;
             tbPath.Text = string.IsNullOrEmpty(path) ? Application.StartupPath : path;
             tbUrl.Text = "https://subscene.com/subtitles/chicago-typewriter-sikago-tajagi";
+
+            listViewSubs.GetType()
+            .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            .SetValue(listViewSubs, true, null); //https://stackoverflow.com/a/42389596
+
 
             updateListViewColumnWitdh();
             updateLabelElapsedTimePosition();
@@ -61,59 +67,122 @@ namespace Subscene_Mass_Downloader_GUI
             comboBoxLang.SelectedIndex = 0;
         }
         private string comboBoxLangValue => comboBoxLang.SelectedItem.ToString();
-        private void listSubsToListView(List<SubtitleModel> subtitles, string lang)
+
+        public static IEnumerable<List<T>> SplitList<T>(List<T> locations, int nSize = 30)
         {
-            listViewSubs.Items.Clear();
-            listViewSubs.ListViewItemSorter = null;
-            listViewSubs.BeginUpdate();
-            int subCount = 0;
-            foreach (var subtitle in subtitles)
+            //https://stackoverflow.com/a/11463800
+            for (int i = 0; i < locations.Count; i += nSize)
             {
-                if (lang != "All")
-                {
-                    if (subtitle.Language != lang)
-                        continue;
-                }
+                yield return locations.GetRange(i, Math.Min(nSize, locations.Count - i));
+            }
+        }
+        private int addSubsToListView(List<SubtitleModel> subtitles, string lang)
+        {
+            var lvItems = subtitles.Select(subtitle =>
+            {
                 ListViewItem subItem = new ListViewItem(subtitle.Language);
                 subItem.Tag = subtitle;
                 subItem.SubItems.Add(subtitle.Title);
                 subItem.SubItems.Add(subtitle.Owner);
                 subItem.SubItems.Add(subtitle.Rating);
-                //subItem.SubItems.Add(subtitle.Link);
-                listViewSubs.Items.Add(subItem);
-                subCount++;
+                return subItem;
+            }).Where(lvItem =>
+            {
+                var sub = lvItem.Tag as SubtitleModel;
+                if (lang == "All")
+                {
+                    return true;
+                }
+                else if (lang == sub.Language)
+                {
+                    return true;
+                }
+
+                return false;
+            }).ToArray();
+
+            listViewSubs.Items.AddRange(lvItems);
+            Application.DoEvents();
+            return lvItems.Count();
+        }
+
+        private bool lvProcessing = false;
+        private void listSubsToListView(List<SubtitleModel> subtitles, string lang)
+        {
+            if (lvProcessing) return;
+            lvProcessing = true;
+            listViewSubs.Items.Clear();
+            listViewSubs.ListViewItemSorter = null;
+
+            var subsChunks = SplitList(subtitles, 100);
+
+            int subCount = 0;
+            foreach (var subs in subsChunks)
+            {
+                subCount += addSubsToListView(subs, lang);
             }
-            listViewSubs.EndUpdate();
+
+       
             listViewSubs.ListViewItemSorter = lvwColumnSorter;
             lblSubsCount.Text = $"Available Subtitle(s) : {subCount}";
+            lvProcessing = false;
         }
 
 
-        private async Task loadShowInformationAsync(string page)
+        private async Task loadPoster(string page)
         {
-            var pageMatch = new RegexMatch(page, RegexPattern.ShowReleaseYear, RegexPattern.ShowTitle, RegexPattern.ShowPoster);
-            var year = pageMatch.Results[0].Matches.First()[1];
-            var title = pageMatch.Results[1].Matches.First()[1];
+            var show = ShowManager.GetShowInfo(page);
 
-            toolTip1.SetToolTip(pictureBoxPoster, $"Title\t: {title}\nYear\t: {year}");
+            toolTip1.SetToolTip(pictureBoxPoster, $"Title\t: {show.Title}\nYear\t: {show.ReleaseYear}");
 
-            if (pageMatch.Results[2].NoMatch)
-            {
-                _animateLblPosterStatus.Stop();
-                lblPosterStatus.Text = $"Title\t: {title}\nRelease Year\t: {year}";
-                pictureBoxPoster.Image = _subsceneImage;
-                return;
-            }
-            var img = pageMatch.Results[2].Matches.First()[1]; ;
-            pictureBoxPoster.Image = await WebHelper.GetImageAsync(img);
+            pictureBoxPoster.Image = string.IsNullOrEmpty(show.PosterUrl) ? _subsceneImage : await WebHelper.GetImageAsync(show.PosterUrl);
+
             _animateLblPosterStatus.Stop();
-            lblPosterStatus.Text = $"{title}\nRelease Year\t: {year}";
+
+            var title = show.Title;
+            lblPosterStatus.Text = $"{title}\nRelease Year\t: {show.ReleaseYear}";
             while (lblPosterStatus.Size.Width + lblPosterStatus.Location.X >= listViewSubs.Location.X)
             {
                 title = title.Remove(title.Length - 5, 5) + "...";
-                lblPosterStatus.Text = $"{title}\nRelease Year\t: {year}";
+                lblPosterStatus.Text = $"{title}\nRelease Year\t: {show.ReleaseYear}";
             }
 
+        }
+
+        private List<SubtitleModel> filterSubtitles(List<SubtitleModel> subtitles, string filter)
+        {
+            List<SubtitleModel> filteredSubs = new List<SubtitleModel>();
+
+            try
+            {
+
+                if (cbRegex.Checked)
+                {
+                    var reg = new Regex(filter.ToLower());
+                    filteredSubs.AddRange(subtitles.Where(i => string.IsNullOrEmpty(filter) ||
+                    reg.Match(i.Title.ToLower()).Success ||
+                    reg.Match(i.Owner.ToLower()).Success ||
+                    reg.Match(i.Language.ToLower()).Success
+
+                    ).ToArray());
+                }
+                else
+                {
+                    filteredSubs.AddRange(subtitles.Where(i => string.IsNullOrEmpty(filter) ||
+                    i.Title.ToLower().Contains(filter.ToLower()) ||
+                    i.Owner.ToLower().Contains(filter.ToLower()) ||
+                    i.Language.ToLower().Contains(filter.ToLower())
+
+
+                    ).ToArray());
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return filteredSubs;
         }
 
         private void cleanUp()
@@ -184,14 +253,14 @@ namespace Subscene_Mass_Downloader_GUI
                 MessageBox.Show(ex.Message);
                 return;
             }
+
+            onStopGetList();
+            _ = loadPoster(page);
+
             ctbFilter.Tag = subList;
             refreshComboBoxLang(subList);
             listSubsToListView(subList, comboBoxLangValue);
-
-            onStopGetList();
-
-            _ = loadShowInformationAsync(page);
-
+            SystemSounds.Exclamation.Play();
         }
 
 
@@ -219,21 +288,18 @@ namespace Subscene_Mass_Downloader_GUI
             List<SubtitleModel> sub2Download = new List<SubtitleModel>();
             var selectedTag = listViewSubs.CheckedItems.Cast<ListViewItem>().Select(x => x.Tag);
             sub2Download.AddRange(selectedTag.Cast<SubtitleModel>());
-            //foreach (var tag in selectedTag)
-            //{
-            //    SubtitleModel subtitle = (SubtitleModel)tag;
-            //    sub2Download.Add(subtitle);
-            //}
+
             if (sub2Download.Count == 0)
             {
                 MessageBox.Show("Check atleast one subtitle to download", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             onStartDownload();
-            List<Task<string>> tasks = null;
             var downloaded = 0;
             bool once = true;
             var __ = _animateLblDlStatus.Start();
+            List<Task<string>> tasks = null;
             await SubtitleManager.DownloadSubtitlesAsync(sub2Download, tbPath.Text, _ =>
             {
                 var count = _.Count(task => task.IsCompleted);
@@ -277,7 +343,6 @@ namespace Subscene_Mass_Downloader_GUI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-
             }
         }
         #endregion
@@ -286,7 +351,9 @@ namespace Subscene_Mass_Downloader_GUI
             List<SubtitleModel> subtitles = (List<SubtitleModel>)(sender as ComboBox).Tag;
             if (subtitles != null && subtitles.Count > 0)
             {
+                comboBoxLang.Enabled = false;
                 listSubsToListView(subtitles, comboBoxLangValue);
+                comboBoxLang.Enabled = true;
             }
         }
 
@@ -311,17 +378,22 @@ namespace Subscene_Mass_Downloader_GUI
             listViewSubs.Sort();
         }
 
+
+        private void mainWindow_ResizeBegin(object sender, EventArgs e)
+        {
+
+        }
         private void mainWindow_Resize(object sender, EventArgs e)
         {
-            updateLabelElapsedTimePosition();
-            if (listViewSubs.Items.Count == 0 || WindowState == FormWindowState.Maximized)
-                updateListViewColumnWitdh();
+            return;
+            //updateLabelElapsedTimePosition();
+            //if (listViewSubs.Items.Count == 0 || WindowState == FormWindowState.Maximized)
+            //    updateListViewColumnWitdh();
         }
 
         private void mainWindow_ResizeEnd(object sender, EventArgs e)
         {
-            if (listViewSubs.Items.Count > 0)
-                updateListViewColumnWitdh();
+            updateListViewColumnWitdh();
         }
         private void lblPath_Click(object sender, EventArgs e)
         {
@@ -330,7 +402,7 @@ namespace Subscene_Mass_Downloader_GUI
 
         private void timerElapsedCounter_Tick(object sender, EventArgs e)
         {
-            lblElapsed.Text = $"Elapsed {String.Format("{0:0.00}", stopwatch.Elapsed.TotalSeconds)} s";
+            lblElapsed.Text = $"Elapsed {string.Format("{0:0.00}", stopwatch.Elapsed.TotalSeconds)} s";
             updateLabelElapsedTimePosition();
         }
         private void tbUrl_TextChanged(object sender, EventArgs e)
@@ -359,25 +431,8 @@ namespace Subscene_Mass_Downloader_GUI
         private void ctbFilter_TextChanged(object sender, EventArgs e)
         {
             var subList = ((CTextBox)sender).Tag as List<SubtitleModel>;
-            List<SubtitleModel> filteredSubtitle = new List<SubtitleModel>();
-            try
-            {
-
-                if (cbRegex.Checked)
-                {
-                    var reg = new Regex(ctbFilter.Text.ToLower());
-                    filteredSubtitle.AddRange(subList.Where(i => string.IsNullOrEmpty(ctbFilter.Text) || reg.Match(i.Title.ToLower()).Success).ToArray());
-                }
-                else
-                {
-                    filteredSubtitle.AddRange(subList.Where(i => string.IsNullOrEmpty(ctbFilter.Text) || i.Title.ToLower().Contains(ctbFilter.Text.ToLower())).ToArray());
-                }
-                listSubsToListView(filteredSubtitle, comboBoxLangValue);
-            }
-            catch (Exception)
-            {
-
-            }
+            subList = filterSubtitles(subList, ctbFilter.Text);
+            listSubsToListView(subList, comboBoxLangValue);
         }
 
 
@@ -388,5 +443,7 @@ namespace Subscene_Mass_Downloader_GUI
         }
 
         #endregion
+
+
     }
 }

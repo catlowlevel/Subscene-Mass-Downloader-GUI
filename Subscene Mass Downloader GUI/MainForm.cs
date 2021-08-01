@@ -99,14 +99,16 @@ namespace Subscene_Mass_Downloader_GUI
         }
 
         private bool lvProcessing = false;
-        private void listSubsToListView(List<SubtitleModel> subtitles, string lang)
+        private void listSubsToListView(List<SubtitleModel> subtitles, string lang,string filter = null)
         {
             if (lvProcessing) return;
             lvProcessing = true;
             listViewSubs.Items.Clear();
             listViewSubs.ListViewItemSorter = null;
 
-            var subsChunks = Utility.SplitList(subtitles, 100);
+            var filteredSubs = filterSubtitles(subtitles, filter);
+
+            var subsChunks = Utility.SplitList(filteredSubs, 100);
 
             int subCount = 0;
             foreach (var subs in subsChunks)
@@ -143,8 +145,8 @@ namespace Subscene_Mass_Downloader_GUI
 
         private List<SubtitleModel> filterSubtitles(List<SubtitleModel> subtitles, string filter)
         {
+            if (string.IsNullOrEmpty(filter)) return subtitles;
             List<SubtitleModel> filteredSubs = new List<SubtitleModel>();
-
             try
             {
 
@@ -344,7 +346,8 @@ namespace Subscene_Mass_Downloader_GUI
             if (subtitles != null && subtitles.Count > 0)
             {
                 comboBoxLang.Enabled = false;
-                listSubsToListView(subtitles, comboBoxLangValue);
+                listSubsToListView(subtitles, comboBoxLangValue,ctbFilter.Text);
+                //ctbFilter_TextChanged(ctbFilter, null);
                 comboBoxLang.Enabled = true;
             }
         }
@@ -426,8 +429,8 @@ namespace Subscene_Mass_Downloader_GUI
             {
                 if (string.IsNullOrEmpty(comboBoxLangValue)) return;
                 var subList = ((CTextBox)sender).Tag as List<SubtitleModel>;
-                subList = filterSubtitles(subList, ctbFilter.Text);
-                listSubsToListView(subList, comboBoxLangValue);
+                listSubsToListView(subList, comboBoxLangValue, ctbFilter.Text);
+
             }
             catch (Exception)
             {

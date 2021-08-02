@@ -357,6 +357,7 @@ namespace Subscene_Mass_Downloader_GUI
             listSubsToListView(subtitles, comboBoxLangValue, ctbFilter.Text);
             //ctbFilter_TextChanged(ctbFilter, null);
             comboBoxLang.Enabled = true;
+            comboBoxLang.Focus();
         }
         private void listViewSubs_ColumnClick(object sender, ColumnClickEventArgs e)
         {

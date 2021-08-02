@@ -1,25 +1,29 @@
-﻿using SubLibrary;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System;
+using System.Web;
+using SubLibrary;
 using System.Linq;
 using System.Media;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
+using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 namespace Subscene_Mass_Downloader_GUI
 {
     public partial class mainWindow : Form
     {
+        #region Global Variable
+
         private Stopwatch stopwatch;
-        private Image _subsceneImage;
-        private SearchForm _searchForm;
-        private AnimateText _animateLblPosterStatus;
-        private AnimateText _animateLblDlStatus;
-        private ListViewColumnSorter lvwColumnSorter;
+        private readonly Image _subsceneImage;
+        private readonly SearchForm _searchForm;
+        private readonly AnimateText _animateLblPosterStatus;
+        private readonly AnimateText _animateLblFetchingData;
+        private readonly ListViewColumnSorter lvwColumnSorter;
         private bool lvProcessing = false;
+
+        #endregion
         public mainWindow()
         {
             InitializeComponent();
@@ -44,7 +48,7 @@ namespace Subscene_Mass_Downloader_GUI
             _animateLblPosterStatus = new AnimateText(lblPosterStatus, "", 300,
                 "Loading.", "Loading..", "Loading...", "Loading..");
 
-            _animateLblDlStatus = new AnimateText(lblDownloadStatus, "", 400,
+            _animateLblFetchingData = new AnimateText(lblDownloadStatus, "", 400,
                 "Fetching Data.",
                 "Fetching Data..",
                 "Fetching Data...",
@@ -52,9 +56,33 @@ namespace Subscene_Mass_Downloader_GUI
                 "Fetching Data."
                 );
         }
+        #region Methods
+        private async Task loadPoster(string page)
+        {
+            var show = ShowManager.GetShowInfo(page);
 
+            toolTip1.SetToolTip(pictureBoxPoster, $"Title\t: {show.Title}\nYear\t: {show.ReleaseYear}");
+
+            pictureBoxPoster.Image = string.IsNullOrEmpty(show.PosterUrl) ? _subsceneImage : await WebHelper.GetImageAsync(show.PosterUrl);
+
+            _animateLblPosterStatus.Stop();
+
+            var title = show.Title;
+            lblPosterStatus.Text = $"{title}\nRelease Year\t: {show.ReleaseYear}";
+            while (lblPosterStatus.Size.Width + lblPosterStatus.Location.X >= listViewSubs.Location.X)
+            {
+                title = title.Remove(title.Length - 5, 5) + "...";
+                lblPosterStatus.Text = $"{title}\nRelease Year\t: {show.ReleaseYear}";
+            }
+
+        }
+
+        private string comboBoxLangValue => comboBoxLang.SelectedItem?.ToString();
         private void refreshComboBoxLang(List<SubtitleModel> subtitles)
         {
+            //prevent comboBoxLang_SelectedIndexChanged get called when calling this function
+            comboBoxLang.SelectedIndexChanged -= comboBoxLang_SelectedIndexChanged;
+
             comboBoxLang.Items.Clear();
             comboBoxLang.Tag = subtitles;
             comboBoxLang.Items.Add("All");
@@ -66,8 +94,9 @@ namespace Subscene_Mass_Downloader_GUI
                 }
             }
             comboBoxLang.SelectedIndex = 0;
+
+            comboBoxLang.SelectedIndexChanged += comboBoxLang_SelectedIndexChanged;
         }
-        private string comboBoxLangValue => comboBoxLang.SelectedItem?.ToString();
 
         private int addSubsToListView(List<SubtitleModel> subtitles, string lang)
         {
@@ -98,10 +127,11 @@ namespace Subscene_Mass_Downloader_GUI
             Application.DoEvents();
             return lvItems.Count();
         }
-
-        private void listSubsToListView(List<SubtitleModel> subtitles, string lang,string filter = null)
+        private void listSubsToListView(List<SubtitleModel> subtitles, string lang, string filter = null)
         {
             if (lvProcessing) return;
+            if (string.IsNullOrEmpty(comboBoxLangValue)) return;
+            if (subtitles == null || subtitles.Count == 0) return;
             lvProcessing = true;
             listViewSubs.Items.Clear();
             listViewSubs.ListViewItemSorter = null;
@@ -116,33 +146,11 @@ namespace Subscene_Mass_Downloader_GUI
                 subCount += addSubsToListView(subs, lang);
             }
 
-       
+
             listViewSubs.ListViewItemSorter = lvwColumnSorter;
             lblSubsCount.Text = $"Available Subtitle(s) : {subCount}";
             lvProcessing = false;
         }
-
-
-        private async Task loadPoster(string page)
-        {
-            var show = ShowManager.GetShowInfo(page);
-
-            toolTip1.SetToolTip(pictureBoxPoster, $"Title\t: {show.Title}\nYear\t: {show.ReleaseYear}");
-
-            pictureBoxPoster.Image = string.IsNullOrEmpty(show.PosterUrl) ? _subsceneImage : await WebHelper.GetImageAsync(show.PosterUrl);
-
-            _animateLblPosterStatus.Stop();
-
-            var title = show.Title;
-            lblPosterStatus.Text = $"{title}\nRelease Year\t: {show.ReleaseYear}";
-            while (lblPosterStatus.Size.Width + lblPosterStatus.Location.X >= listViewSubs.Location.X)
-            {
-                title = title.Remove(title.Length - 5, 5) + "...";
-                lblPosterStatus.Text = $"{title}\nRelease Year\t: {show.ReleaseYear}";
-            }
-
-        }
-
         private List<SubtitleModel> filterSubtitles(List<SubtitleModel> subtitles, string filter)
         {
             if (string.IsNullOrEmpty(filter)) return subtitles;
@@ -202,7 +210,6 @@ namespace Subscene_Mass_Downloader_GUI
             listViewSubs.Columns["colOwner"].Width = (int)ownerW;
             listViewSubs.Columns["colRating"].Width = (int)ratingW;
         }
-
         private void updateLabelElapsedTimePosition()
         {
             lblElapsed.Location = new Point(panelSave.Width - (int)(lblElapsed.Width * 1.1m), panelSave.Height - (int)(lblElapsed.Height * 1.5m));
@@ -211,6 +218,8 @@ namespace Subscene_Mass_Downloader_GUI
         {
             return (percentage * 0.01m) * num;
         }
+
+        #endregion
         #region UI Event Handler
         #region Button
         private void onGetSubList()
@@ -275,10 +284,11 @@ namespace Subscene_Mass_Downloader_GUI
             btnDownload.Enabled = true;
             stopwatch.Stop();
             timerElapsedCounter.Stop();
-            _animateLblDlStatus.Stop();
+            _animateLblFetchingData.Stop();
         }
         private async void btnDownload_Click(object sender, EventArgs e)
         {
+            cleanUp();
             List<SubtitleModel> sub2Download = new List<SubtitleModel>();
             var selectedTag = listViewSubs.CheckedItems.Cast<ListViewItem>().Select(x => x.Tag);
             sub2Download.AddRange(selectedTag.Cast<SubtitleModel>());
@@ -292,7 +302,7 @@ namespace Subscene_Mass_Downloader_GUI
             onStartDownload();
             var downloaded = 0;
             bool once = true;
-            var __ = _animateLblDlStatus.Start();
+            var __ = _animateLblFetchingData.Start();
             List<Task<string>> tasks = null;
             await SubtitleManager.DownloadSubtitlesAsync(sub2Download, tbPath.Text, _ =>
             {
@@ -305,7 +315,7 @@ namespace Subscene_Mass_Downloader_GUI
                     lblDownloadStatus.Text = $"{pbDownload.Value}% | {count}/{total} Downloading";
                     if (once)
                     {
-                        _animateLblDlStatus.Stop();
+                        _animateLblFetchingData.Stop();
                     }
                     once = false;
                 }
@@ -343,15 +353,11 @@ namespace Subscene_Mass_Downloader_GUI
         private void comboBoxLang_SelectedIndexChanged(object sender, EventArgs e)
         {
             List<SubtitleModel> subtitles = (List<SubtitleModel>)(sender as ComboBox).Tag;
-            if (subtitles != null && subtitles.Count > 0)
-            {
-                comboBoxLang.Enabled = false;
-                listSubsToListView(subtitles, comboBoxLangValue,ctbFilter.Text);
-                //ctbFilter_TextChanged(ctbFilter, null);
-                comboBoxLang.Enabled = true;
-            }
+            comboBoxLang.Enabled = false;
+            listSubsToListView(subtitles, comboBoxLangValue, ctbFilter.Text);
+            //ctbFilter_TextChanged(ctbFilter, null);
+            comboBoxLang.Enabled = true;
         }
-
         private void listViewSubs_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == lvwColumnSorter.SortColumn)
@@ -372,20 +378,16 @@ namespace Subscene_Mass_Downloader_GUI
             }
             listViewSubs.Sort();
         }
-
-
         private void mainWindow_ResizeBegin(object sender, EventArgs e)
         {
 
         }
         private void mainWindow_Resize(object sender, EventArgs e)
         {
-            return;
             //updateLabelElapsedTimePosition();
-            //if (listViewSubs.Items.Count == 0 || WindowState == FormWindowState.Maximized)
-            //    updateListViewColumnWitdh();
+            if (WindowState == FormWindowState.Maximized)
+                updateListViewColumnWitdh();
         }
-
         private void mainWindow_ResizeEnd(object sender, EventArgs e)
         {
             updateListViewColumnWitdh();
@@ -394,7 +396,6 @@ namespace Subscene_Mass_Downloader_GUI
         {
             Process.Start(tbPath.Text);
         }
-
         private void timerElapsedCounter_Tick(object sender, EventArgs e)
         {
             lblElapsed.Text = $"Elapsed {string.Format("{0:0.00}", stopwatch.Elapsed.TotalSeconds)} s";
@@ -422,12 +423,10 @@ namespace Subscene_Mass_Downloader_GUI
                 }
             }
         }
-
         private void ctbFilter_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(comboBoxLangValue)) return;
                 var subList = ((CTextBox)sender).Tag as List<SubtitleModel>;
                 listSubsToListView(subList, comboBoxLangValue, ctbFilter.Text);
 
@@ -437,8 +436,6 @@ namespace Subscene_Mass_Downloader_GUI
 
             }
         }
-
-
         private void cbRegex_CheckedChanged(object sender, EventArgs e)
         {
             ctbFilter_TextChanged(ctbFilter, null);

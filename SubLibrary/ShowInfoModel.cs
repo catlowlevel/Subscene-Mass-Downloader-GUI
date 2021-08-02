@@ -11,5 +11,8 @@ namespace SubLibrary
         public string ReleaseYear { get; set; }
         public string Title { get; set; }
         public string PosterUrl { get; set; }
+
+        //Imdb | TODO
+        public string Link { get; set; }
     }
 }

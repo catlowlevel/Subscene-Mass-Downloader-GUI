@@ -58,9 +58,9 @@ namespace Subscene_Mass_Downloader_GUI
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timerElapsedCounter = new System.Windows.Forms.Timer(this.components);
             this.panelFilter = new System.Windows.Forms.Panel();
+            this.ctbFilter = new Subscene_Mass_Downloader_GUI.CTextBox();
             this.panelSeperator = new System.Windows.Forms.Panel();
             this.cbRegex = new System.Windows.Forms.CheckBox();
-            this.ctbFilter = new Subscene_Mass_Downloader_GUI.CTextBox();
             this.panelAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPoster)).BeginInit();
             this.panelSave.SuspendLayout();
@@ -390,6 +390,19 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelFilter.Size = new System.Drawing.Size(437, 22);
             this.panelFilter.TabIndex = 6;
             // 
+            // ctbFilter
+            // 
+            this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctbFilter.Location = new System.Drawing.Point(0, 0);
+            this.ctbFilter.Name = "ctbFilter";
+            this.ctbFilter.Size = new System.Drawing.Size(378, 20);
+            this.ctbFilter.TabIndex = 5;
+            this.ctbFilter.WaterMark = "Filter";
+            this.ctbFilter.WaterMarkActiveForeColor = System.Drawing.Color.Gray;
+            this.ctbFilter.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctbFilter.WaterMarkForeColor = System.Drawing.Color.Gray;
+            this.ctbFilter.TextChanged += new System.EventHandler(this.ctbFilter_TextChanged);
+            // 
             // panelSeperator
             // 
             this.panelSeperator.BackColor = System.Drawing.SystemColors.Control;
@@ -411,19 +424,6 @@ namespace Subscene_Mass_Downloader_GUI
             this.cbRegex.Text = "Regex";
             this.cbRegex.UseVisualStyleBackColor = true;
             this.cbRegex.CheckedChanged += new System.EventHandler(this.cbRegex_CheckedChanged);
-            // 
-            // ctbFilter
-            // 
-            this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctbFilter.Location = new System.Drawing.Point(0, 0);
-            this.ctbFilter.Name = "ctbFilter";
-            this.ctbFilter.Size = new System.Drawing.Size(378, 20);
-            this.ctbFilter.TabIndex = 5;
-            this.ctbFilter.WaterMark = "Filter";
-            this.ctbFilter.WaterMarkActiveForeColor = System.Drawing.Color.Gray;
-            this.ctbFilter.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctbFilter.WaterMarkForeColor = System.Drawing.Color.Gray;
-            this.ctbFilter.TextChanged += new System.EventHandler(this.ctbFilter_TextChanged);
             // 
             // mainWindow
             // 

@@ -77,6 +77,7 @@ namespace Subscene_Mass_Downloader_GUI
 
         }
 
+        #region ComboBox
         private string comboBoxLangValue => comboBoxLang.SelectedItem?.ToString();
         private void refreshComboBoxLang(List<SubtitleModel> subtitles)
         {
@@ -97,7 +98,9 @@ namespace Subscene_Mass_Downloader_GUI
 
             comboBoxLang.SelectedIndexChanged += comboBoxLang_SelectedIndexChanged;
         }
+        #endregion
 
+        #region ListView
         private int addSubsToListView(List<SubtitleModel> subtitles, string lang)
         {
             var lvItems = subtitles.Select(subtitle =>
@@ -151,6 +154,25 @@ namespace Subscene_Mass_Downloader_GUI
             lblSubsCount.Text = $"Available Subtitle(s) : {subCount}";
             lvProcessing = false;
         }
+        private void updateListViewColumnWitdh()
+        {
+            int w = listViewSubs.Size.Width;
+
+            //var langW = valueOfPercentage(10, w);
+            var langW = 100;
+            var titleW = valueOfPercentage(60, w - langW);
+            var ownerW = valueOfPercentage(17, w - langW);
+            var ratingW = valueOfPercentage(17, w - langW);
+            //var total = langW + titleW + ownerW + ratingW;
+
+            listViewSubs.Columns["colLang"].Width = langW;
+            listViewSubs.Columns["colTitle"].Width = (int)titleW;
+            listViewSubs.Columns["colOwner"].Width = (int)ownerW;
+            listViewSubs.Columns["colRating"].Width = (int)ratingW;
+        }
+        #endregion
+
+        #region Others
         private List<SubtitleModel> filterSubtitles(List<SubtitleModel> subtitles, string filter)
         {
             if (string.IsNullOrEmpty(filter)) return subtitles;
@@ -186,29 +208,11 @@ namespace Subscene_Mass_Downloader_GUI
 
             return filteredSubs;
         }
-
         private void cleanUp()
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
-        }
-
-        private void updateListViewColumnWitdh()
-        {
-            int w = listViewSubs.Size.Width;
-
-            //var langW = valueOfPercentage(10, w);
-            var langW = 100;
-            var titleW = valueOfPercentage(60, w - langW);
-            var ownerW = valueOfPercentage(17, w - langW);
-            var ratingW = valueOfPercentage(17, w - langW);
-            //var total = langW + titleW + ownerW + ratingW;
-
-            listViewSubs.Columns["colLang"].Width = langW;
-            listViewSubs.Columns["colTitle"].Width = (int)titleW;
-            listViewSubs.Columns["colOwner"].Width = (int)ownerW;
-            listViewSubs.Columns["colRating"].Width = (int)ratingW;
         }
         private void updateLabelElapsedTimePosition()
         {
@@ -218,6 +222,7 @@ namespace Subscene_Mass_Downloader_GUI
         {
             return (percentage * 0.01m) * num;
         }
+        #endregion
 
         #endregion
         #region UI Event Handler
@@ -235,7 +240,6 @@ namespace Subscene_Mass_Downloader_GUI
             lblPosterStatus.Text = "";
 
         }
-
         private async void btnGetSubsList_Click(object sender, EventArgs e)
         {
             cleanUp();
@@ -264,12 +268,6 @@ namespace Subscene_Mass_Downloader_GUI
             refreshComboBoxLang(subList);
             listSubsToListView(subList, comboBoxLangValue);
             SystemSounds.Exclamation.Play();
-        }
-
-
-        private void btnSearchTitle_Click(object sender, EventArgs e)
-        {
-            _searchForm.ShowDialog(this);
         }
 
         private void onStartDownload()
@@ -330,6 +328,11 @@ namespace Subscene_Mass_Downloader_GUI
             MessageBox.Show(null, "Done", "SMD", MessageBoxButtons.OK, fail == 0 ? MessageBoxIcon.Information : MessageBoxIcon.Exclamation);
         }
 
+        private void btnSearchTitle_Click(object sender, EventArgs e)
+        {
+            _searchForm.ShowDialog(this);
+        }
+
         private void btnSelectPath_Click(object sender, EventArgs e)
         {
             try
@@ -350,35 +353,8 @@ namespace Subscene_Mass_Downloader_GUI
             }
         }
         #endregion
-        private void comboBoxLang_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            List<SubtitleModel> subtitles = (List<SubtitleModel>)(sender as ComboBox).Tag;
-            comboBoxLang.Enabled = false;
-            listSubsToListView(subtitles, comboBoxLangValue, ctbFilter.Text);
-            //ctbFilter_TextChanged(ctbFilter, null);
-            comboBoxLang.Enabled = true;
-            comboBoxLang.Focus();
-        }
-        private void listViewSubs_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            if (e.Column == lvwColumnSorter.SortColumn)
-            {
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
-            }
-            else
-            {
-                lvwColumnSorter.SortColumn = e.Column;
-                lvwColumnSorter.Order = SortOrder.Ascending;
-            }
-            listViewSubs.Sort();
-        }
+
+        #region Window
         private void mainWindow_ResizeBegin(object sender, EventArgs e)
         {
 
@@ -393,15 +369,9 @@ namespace Subscene_Mass_Downloader_GUI
         {
             updateListViewColumnWitdh();
         }
-        private void lblPath_Click(object sender, EventArgs e)
-        {
-            Process.Start(tbPath.Text);
-        }
-        private void timerElapsedCounter_Tick(object sender, EventArgs e)
-        {
-            lblElapsed.Text = $"Elapsed {string.Format("{0:0.00}", stopwatch.Elapsed.TotalSeconds)} s";
-            updateLabelElapsedTimePosition();
-        }
+        #endregion
+
+        #region Textbox
         private void tbUrl_TextChanged(object sender, EventArgs e)
         {
             string staticText = "https://subscene.com/subtitles/";
@@ -437,12 +407,52 @@ namespace Subscene_Mass_Downloader_GUI
 
             }
         }
+        #endregion
+
+        #region Others
+        private void comboBoxLang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<SubtitleModel> subtitles = (List<SubtitleModel>)(sender as ComboBox).Tag;
+            comboBoxLang.Enabled = false;
+            listSubsToListView(subtitles, comboBoxLangValue, ctbFilter.Text);
+            //ctbFilter_TextChanged(ctbFilter, null);
+            comboBoxLang.Enabled = true;
+        }
+        private void listViewSubs_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                {
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                lvwColumnSorter.SortColumn = e.Column;
+                lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+            listViewSubs.Sort();
+        }
+        private void lblPath_Click(object sender, EventArgs e)
+        {
+            Process.Start(tbPath.Text);
+        }
+        private void timerElapsedCounter_Tick(object sender, EventArgs e)
+        {
+            lblElapsed.Text = $"Elapsed {string.Format("{0:0.00}", stopwatch.Elapsed.TotalSeconds)} s";
+            updateLabelElapsedTimePosition();
+        }
         private void cbRegex_CheckedChanged(object sender, EventArgs e)
         {
             ctbFilter_TextChanged(ctbFilter, null);
             ctbFilter.Focus();
         }
-
+        #endregion
         #endregion
 
 

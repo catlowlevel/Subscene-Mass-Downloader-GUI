@@ -10,10 +10,10 @@ namespace SubLibrary
         public string[] Texts { get; set; }
         public string DefaultText { get; set; }
         public int Delay { get; set; }
-        public AnimateText(Control control, string defaultText, int msDelay, params string[] texts)
+        public AnimateText(Control controlToAnimate, string textAfterAnimate, int msDelay, params string[] texts)
         {
-            ControlObj = control;
-            DefaultText = defaultText;
+            ControlObj = controlToAnimate;
+            DefaultText = textAfterAnimate;
             Delay = msDelay;
             Texts = texts;
         }
@@ -29,6 +29,10 @@ namespace SubLibrary
                     await Task.Delay(Delay);
                     if (IsRunning == false) break;
                 }
+            }
+            if (string.IsNullOrEmpty(DefaultText))
+            {
+                ControlObj.Text = DefaultText;
             }
         }
         public void Stop()

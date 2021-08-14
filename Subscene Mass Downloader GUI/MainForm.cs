@@ -45,7 +45,7 @@ namespace Subscene_Mass_Downloader_GUI
             lvwColumnSorter = new ListViewColumnSorter();
             listViewSubs.ColumnClick += listViewSubs_ColumnClick;
 
-            _animateLblPosterStatus = new AnimateText(lblPosterStatus, "", 300,
+            _animateLblPosterStatus = new AnimateText(lblPosterStatus, null, 300,
                 "Loading.", "Loading..", "Loading...", "Loading..");
 
             _animateLblFetchingData = new AnimateText(lblDownloadStatus, "", 400,

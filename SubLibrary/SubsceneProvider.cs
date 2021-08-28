@@ -86,7 +86,7 @@ namespace SubLibrary
         public override IEnumerable<ShowModel> GetShowList(string page)
         {
             List<ShowModel> showModels = new List<ShowModel>();
-            var pageMatch = new RegexMatch(page, RegexPattern.ShowsInfo);
+            var pageMatch = new RegexMatch(page, ShowsInfo);
             foreach (var item in pageMatch.Results.First().Matches)
             {
                 showModels.Add(new ShowModel
@@ -104,7 +104,7 @@ namespace SubLibrary
         {
             ShowInfoModel show = new ShowInfoModel();
 
-            var pageMatch = new RegexMatch(page, RegexPattern.ShowReleaseYear, RegexPattern.ShowTitle, RegexPattern.ShowPoster);
+            var pageMatch = new RegexMatch(page, ShowReleaseYear, ShowTitle, ShowPoster);
             var year = pageMatch.Results[0].Matches.First()[1];
             var title = pageMatch.Results[1].Matches.First()[1];
 

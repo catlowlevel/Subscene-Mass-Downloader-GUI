@@ -36,6 +36,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.tbUrl = new System.Windows.Forms.TextBox();
             this.btnGetSubsList = new System.Windows.Forms.Button();
             this.panelAction = new System.Windows.Forms.Panel();
+            this.lblSubProvider = new System.Windows.Forms.Label();
             this.cbSubProvider = new System.Windows.Forms.ComboBox();
             this.lblPosterStatus = new System.Windows.Forms.Label();
             this.lblSubsCount = new System.Windows.Forms.Label();
@@ -59,10 +60,9 @@ namespace Subscene_Mass_Downloader_GUI
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timerElapsedCounter = new System.Windows.Forms.Timer(this.components);
             this.panelFilter = new System.Windows.Forms.Panel();
+            this.ctbFilter = new Subscene_Mass_Downloader_GUI.CTextBox();
             this.panelSeperator = new System.Windows.Forms.Panel();
             this.cbRegex = new System.Windows.Forms.CheckBox();
-            this.ctbFilter = new Subscene_Mass_Downloader_GUI.CTextBox();
-            this.lblSubProvider = new System.Windows.Forms.Label();
             this.panelAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPoster)).BeginInit();
             this.panelSave.SuspendLayout();
@@ -105,8 +105,17 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelAction.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelAction.Location = new System.Drawing.Point(0, 0);
             this.panelAction.Name = "panelAction";
-            this.panelAction.Size = new System.Drawing.Size(270, 338);
+            this.panelAction.Size = new System.Drawing.Size(270, 344);
             this.panelAction.TabIndex = 2;
+            // 
+            // lblSubProvider
+            // 
+            this.lblSubProvider.AutoSize = true;
+            this.lblSubProvider.Location = new System.Drawing.Point(46, 292);
+            this.lblSubProvider.Name = "lblSubProvider";
+            this.lblSubProvider.Size = new System.Drawing.Size(90, 13);
+            this.lblSubProvider.TabIndex = 9;
+            this.lblSubProvider.Text = "Subtitle Provider :";
             // 
             // cbSubProvider
             // 
@@ -279,16 +288,16 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelSave.Controls.Add(this.tbPath);
             this.panelSave.Controls.Add(this.btnSelectPath);
             this.panelSave.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelSave.Location = new System.Drawing.Point(0, 338);
+            this.panelSave.Location = new System.Drawing.Point(0, 344);
             this.panelSave.Name = "panelSave";
-            this.panelSave.Size = new System.Drawing.Size(707, 71);
+            this.panelSave.Size = new System.Drawing.Size(707, 65);
             this.panelSave.TabIndex = 3;
             // 
             // lblElapsed
             // 
             this.lblElapsed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblElapsed.AutoSize = true;
-            this.lblElapsed.Location = new System.Drawing.Point(622, 50);
+            this.lblElapsed.Location = new System.Drawing.Point(622, 44);
             this.lblElapsed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblElapsed.Name = "lblElapsed";
             this.lblElapsed.Size = new System.Drawing.Size(71, 13);
@@ -319,7 +328,7 @@ namespace Subscene_Mass_Downloader_GUI
             // pbDownload
             // 
             this.pbDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbDownload.Location = new System.Drawing.Point(14, 30);
+            this.pbDownload.Location = new System.Drawing.Point(14, 27);
             this.pbDownload.Margin = new System.Windows.Forms.Padding(2);
             this.pbDownload.Name = "pbDownload";
             this.pbDownload.Size = new System.Drawing.Size(688, 18);
@@ -330,7 +339,7 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.tbPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tbPath.Enabled = false;
-            this.tbPath.Location = new System.Drawing.Point(90, 6);
+            this.tbPath.Location = new System.Drawing.Point(90, 3);
             this.tbPath.Margin = new System.Windows.Forms.Padding(3, 3, 22, 3);
             this.tbPath.Name = "tbPath";
             this.tbPath.ReadOnly = true;
@@ -363,7 +372,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.listViewSubs.HideSelection = false;
             this.listViewSubs.Location = new System.Drawing.Point(270, 0);
             this.listViewSubs.Name = "listViewSubs";
-            this.listViewSubs.Size = new System.Drawing.Size(437, 316);
+            this.listViewSubs.Size = new System.Drawing.Size(437, 322);
             this.listViewSubs.TabIndex = 4;
             this.listViewSubs.UseCompatibleStateImageBehavior = false;
             this.listViewSubs.View = System.Windows.Forms.View.Details;
@@ -402,10 +411,23 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelFilter.Controls.Add(this.panelSeperator);
             this.panelFilter.Controls.Add(this.cbRegex);
             this.panelFilter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelFilter.Location = new System.Drawing.Point(270, 316);
+            this.panelFilter.Location = new System.Drawing.Point(270, 322);
             this.panelFilter.Name = "panelFilter";
             this.panelFilter.Size = new System.Drawing.Size(437, 22);
             this.panelFilter.TabIndex = 6;
+            // 
+            // ctbFilter
+            // 
+            this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctbFilter.Location = new System.Drawing.Point(0, 0);
+            this.ctbFilter.Name = "ctbFilter";
+            this.ctbFilter.Size = new System.Drawing.Size(378, 20);
+            this.ctbFilter.TabIndex = 5;
+            this.ctbFilter.WaterMark = "Filter";
+            this.ctbFilter.WaterMarkActiveForeColor = System.Drawing.Color.Gray;
+            this.ctbFilter.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctbFilter.WaterMarkForeColor = System.Drawing.Color.Gray;
+            this.ctbFilter.TextChanged += new System.EventHandler(this.ctbFilter_TextChanged);
             // 
             // panelSeperator
             // 
@@ -428,28 +450,6 @@ namespace Subscene_Mass_Downloader_GUI
             this.cbRegex.Text = "Regex";
             this.cbRegex.UseVisualStyleBackColor = true;
             this.cbRegex.CheckedChanged += new System.EventHandler(this.cbRegex_CheckedChanged);
-            // 
-            // ctbFilter
-            // 
-            this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctbFilter.Location = new System.Drawing.Point(0, 0);
-            this.ctbFilter.Name = "ctbFilter";
-            this.ctbFilter.Size = new System.Drawing.Size(378, 20);
-            this.ctbFilter.TabIndex = 5;
-            this.ctbFilter.WaterMark = "Filter";
-            this.ctbFilter.WaterMarkActiveForeColor = System.Drawing.Color.Gray;
-            this.ctbFilter.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctbFilter.WaterMarkForeColor = System.Drawing.Color.Gray;
-            this.ctbFilter.TextChanged += new System.EventHandler(this.ctbFilter_TextChanged);
-            // 
-            // lblSubProvider
-            // 
-            this.lblSubProvider.AutoSize = true;
-            this.lblSubProvider.Location = new System.Drawing.Point(42, 291);
-            this.lblSubProvider.Name = "lblSubProvider";
-            this.lblSubProvider.Size = new System.Drawing.Size(90, 13);
-            this.lblSubProvider.TabIndex = 9;
-            this.lblSubProvider.Text = "Subtitle Provider :";
             // 
             // mainWindow
             // 

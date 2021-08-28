@@ -115,7 +115,7 @@ namespace Subscene_Mass_Downloader_GUI
             {
                 var page = await WebHelper.DownloadStringAsync(string.Format(subtitleProvider.SubtitleApi, ""));
                 page = HttpUtility.HtmlDecode(page);
-                var popularMatch = new RegexMatch(page, RegexPattern.PopularShow, RegexPattern.PopularShowSubCount);
+                var popularMatch = new RegexMatch(page, (subtitleProvider as SubsceneProvider).PopularShow, (subtitleProvider as SubsceneProvider).PopularShowSubCount);
                 if (popularMatch.Results[0].Matches.Count != popularMatch.Results[1].Matches.Count)
                 {
                     MessageBox.Show("Fail To Match Popular Show Regex");
@@ -149,7 +149,7 @@ namespace Subscene_Mass_Downloader_GUI
             var check = subtitleProvider as SubsceneProvider;
             if (check is null)
             {
-                MessageBox.Show("Searching feature is not\nyet implemented for this website!", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Searching feature is not\nyet implemented for this site!", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 _exitBtn.PerformClick();
             }
         }

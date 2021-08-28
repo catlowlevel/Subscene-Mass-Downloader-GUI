@@ -48,13 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimateText.cs" />
-    <Compile Include="ISubtitleModel.cs" />
     <Compile Include="ISubtitleProvider.cs" />
     <Compile Include="OpenSubtitleProvider.cs" />
     <Compile Include="ShowInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexMatch.cs" />
-    <Compile Include="RegexPattern.cs" />
     <Compile Include="ShowModel.cs" />
     <Compile Include="SubtitleModel.cs" />
     <Compile Include="SubsceneProvider.cs" />

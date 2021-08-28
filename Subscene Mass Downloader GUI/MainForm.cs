@@ -22,11 +22,17 @@ namespace Subscene_Mass_Downloader_GUI
         private readonly AnimateText _animateLblFetchingData;
         private readonly ListViewColumnSorter lvwColumnSorter;
         private bool lvProcessing = false;
-
+        private ISubtitleProvider subtitleProvider;
+        private ISubtitleProvider[] subtitleProviders;
         #endregion
         public mainWindow()
         {
             InitializeComponent();
+            subtitleProviders = new ISubtitleProvider[2];
+            subtitleProviders[0] = new SubsceneProvider();
+            subtitleProviders[1] = new OpenSubtitleProvider();
+            subtitleProvider = subtitleProviders[0];
+            cbSubProvider.SelectedIndex = 0;
             var path = Properties.Settings.Default.lastPath;
             tbPath.Text = string.IsNullOrEmpty(path) ? Application.StartupPath : path;
             tbUrl.Text = "https://subscene.com/subtitles/breaking-bad-first-season";
@@ -40,7 +46,7 @@ namespace Subscene_Mass_Downloader_GUI
             updateLabelElapsedTimePosition();
 
             _subsceneImage = (Image)pictureBoxPoster.Image.Clone();
-            _searchForm = new SearchForm();
+            _searchForm = new SearchForm(subtitleProvider);
 
             lvwColumnSorter = new ListViewColumnSorter();
             listViewSubs.ColumnClick += listViewSubs_ColumnClick;
@@ -48,18 +54,21 @@ namespace Subscene_Mass_Downloader_GUI
             _animateLblPosterStatus = new AnimateText(lblPosterStatus, null, 300,
                 "Loading.", "Loading..", "Loading...", "Loading..");
 
-            _animateLblFetchingData = new AnimateText(lblDownloadStatus, "", 400,
+            _animateLblFetchingData = new AnimateText(lblDownloadStatus, null, 400,
                 "Fetching Data.",
                 "Fetching Data..",
                 "Fetching Data...",
                 "Fetching Data..",
                 "Fetching Data."
                 );
+
         }
         #region Methods
+
+
         private async Task loadPoster(string page)
         {
-            var show = ShowManager.GetShowInfo(page);
+            var show = subtitleProvider.GetShowInfo(page);
 
             toolTip1.SetToolTip(pictureBoxPoster, $"Title\t: {show.Title}\nYear\t: {show.ReleaseYear}");
 
@@ -79,7 +88,7 @@ namespace Subscene_Mass_Downloader_GUI
 
         #region ComboBox
         private string comboBoxLangValue => comboBoxLang.SelectedItem?.ToString();
-        private void refreshComboBoxLang(List<SubtitleModel> subtitles)
+        private void refreshComboBoxLang(IEnumerable<SubtitleModel> subtitles)
         {
             //prevent comboBoxLang_SelectedIndexChanged get called when calling this function
             comboBoxLang.SelectedIndexChanged -= comboBoxLang_SelectedIndexChanged;
@@ -173,7 +182,7 @@ namespace Subscene_Mass_Downloader_GUI
         #endregion
 
         #region Others
-        private List<SubtitleModel> filterSubtitles(List<SubtitleModel> subtitles, string filter)
+        private List<SubtitleModel> filterSubtitles(List<SubtitleModel> subtitles, string filter)   //TODO! use SubsceneModel
         {
             if (string.IsNullOrEmpty(filter)) return subtitles;
             List<SubtitleModel> filteredSubs = new List<SubtitleModel>();
@@ -185,7 +194,7 @@ namespace Subscene_Mass_Downloader_GUI
                     var reg = new Regex(filter.ToLower());
                     filteredSubs.AddRange(subtitles.Where(i => string.IsNullOrEmpty(filter) ||
                     reg.Match(i.Title.ToLower()).Success ||
-                    reg.Match(i.Owner.ToLower()).Success ||
+                    reg.Match(((SubtitleModel)i)?.Owner.ToLower()).Success ||
                     reg.Match(i.Language.ToLower()).Success
 
                     ).ToArray());
@@ -194,7 +203,7 @@ namespace Subscene_Mass_Downloader_GUI
                 {
                     filteredSubs.AddRange(subtitles.Where(i => string.IsNullOrEmpty(filter) ||
                     i.Title.ToLower().Contains(filter.ToLower()) ||
-                    i.Owner.ToLower().Contains(filter.ToLower()) ||
+                    //i.Owner.ToLower().Contains(filter.ToLower()) ||
                     i.Language.ToLower().Contains(filter.ToLower())
 
 
@@ -240,19 +249,34 @@ namespace Subscene_Mass_Downloader_GUI
             lblPosterStatus.Text = "";
 
         }
+
+        private bool validUrl()
+        {
+            var url = cbSubProvider.SelectedItem.ToString();
+            if (tbUrl.Text.Contains(url) == false) return false;
+
+            return true;
+        }
         private async void btnGetSubsList_Click(object sender, EventArgs e)
         {
+            if (!validUrl())
+            {
+                MessageBox.Show("Invalid URL!", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
             cleanUp();
+            subtitleProvider = subtitleProviders[cbSubProvider.SelectedIndex];
+
             onGetSubList();
             _ = _animateLblPosterStatus.Start();
 
-            List<SubtitleModel> subList;
+            IEnumerable<SubtitleModel> subList;
             string page;
             try
             {
-                page = await WebHelper.DownloadStringAsync(tbUrl.Text);
-                page = HttpUtility.HtmlDecode(page);
-                subList = SubtitleManager.ParseSubtitlesPage(page);
+                page = await subtitleProvider.LoadPageAsync(tbUrl.Text);
+                subList = subtitleProvider.GetSubtitleList(page);
             }
             catch (Exception ex)
             {
@@ -266,7 +290,7 @@ namespace Subscene_Mass_Downloader_GUI
 
             ctbFilter.Tag = subList;
             refreshComboBoxLang(subList);
-            listSubsToListView(subList, comboBoxLangValue);
+            listSubsToListView(subList.ToList(), comboBoxLangValue);
             SystemSounds.Exclamation.Play();
         }
 
@@ -302,7 +326,7 @@ namespace Subscene_Mass_Downloader_GUI
             bool once = true;
             var __ = _animateLblFetchingData.Start();
             List<Task<string>> tasks = null;
-            await SubtitleManager.DownloadSubtitlesAsync(sub2Download, tbPath.Text, _ =>
+            await subtitleProvider.MassDownloadSubtitleAsync(sub2Download, tbPath.Text, _ =>
             {
                 var count = _.Count(task => task.IsCompleted);
                 var total = _.Count;
@@ -319,17 +343,18 @@ namespace Subscene_Mass_Downloader_GUI
                 }
                 if (tasks == null) tasks = _;
             });
+            onStopDownload();
 
             //TODO: Log the reason for this fails
             var fail = tasks.Count(t => t.IsFaulted);
 
-            onStopDownload();
             lblDownloadStatus.Text = $"{downloaded - fail}/{sub2Download.Count} Subtitle(s) Downloaded";
             MessageBox.Show(null, "Done", "SMD", MessageBoxButtons.OK, fail == 0 ? MessageBoxIcon.Information : MessageBoxIcon.Exclamation);
         }
 
         private void btnSearchTitle_Click(object sender, EventArgs e)
         {
+            _searchForm.subtitleProvider = subtitleProviders[cbSubProvider.SelectedIndex];
             _searchForm.ShowDialog(this);
         }
 
@@ -374,25 +399,25 @@ namespace Subscene_Mass_Downloader_GUI
         #region Textbox
         private void tbUrl_TextChanged(object sender, EventArgs e)
         {
-            string staticText = "https://subscene.com/subtitles/";
-            if (!tbUrl.Text.StartsWith(staticText))
-            {
-                if (tbUrl.Text.Length < staticText.Length)
-                {
-                    tbUrl.Text = staticText;
-                    tbUrl.Select(tbUrl.Text.Length, 0);
-                }
-                for (int i = 0; i < tbUrl.Text.Length; i++)
-                {
-                    if (i > staticText.Length) break;
-                    if (tbUrl.Text[i] != staticText[i])
-                    {
-                        tbUrl.Text = tbUrl.Text.Remove(i, 1);
-                        tbUrl.Select(tbUrl.Text.Length, 0);
-                        break;
-                    }
-                }
-            }
+            //string staticText = "https://subscene.com/subtitles/";
+            //if (!tbUrl.Text.StartsWith(staticText))
+            //{
+            //    if (tbUrl.Text.Length < staticText.Length)
+            //    {
+            //        tbUrl.Text = staticText;
+            //        tbUrl.Select(tbUrl.Text.Length, 0);
+            //    }
+            //    for (int i = 0; i < tbUrl.Text.Length; i++)
+            //    {
+            //        if (i > staticText.Length) break;
+            //        if (tbUrl.Text[i] != staticText[i])
+            //        {
+            //            tbUrl.Text = tbUrl.Text.Remove(i, 1);
+            //            tbUrl.Select(tbUrl.Text.Length, 0);
+            //            break;
+            //        }
+            //    }
+            //}
         }
         private void ctbFilter_TextChanged(object sender, EventArgs e)
         {
@@ -418,6 +443,10 @@ namespace Subscene_Mass_Downloader_GUI
             //ctbFilter_TextChanged(ctbFilter, null);
             comboBoxLang.Enabled = true;
             comboBoxLang.Focus();
+        }
+        private void cbSubProvider_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
         private void listViewSubs_ColumnClick(object sender, ColumnClickEventArgs e)
         {
@@ -454,8 +483,8 @@ namespace Subscene_Mass_Downloader_GUI
             ctbFilter.Focus();
         }
         #endregion
-        #endregion
 
+        #endregion
 
     }
 }

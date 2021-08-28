@@ -36,6 +36,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.tbUrl = new System.Windows.Forms.TextBox();
             this.btnGetSubsList = new System.Windows.Forms.Button();
             this.panelAction = new System.Windows.Forms.Panel();
+            this.cbSubProvider = new System.Windows.Forms.ComboBox();
             this.lblPosterStatus = new System.Windows.Forms.Label();
             this.lblSubsCount = new System.Windows.Forms.Label();
             this.pictureBoxPoster = new System.Windows.Forms.PictureBox();
@@ -58,9 +59,10 @@ namespace Subscene_Mass_Downloader_GUI
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timerElapsedCounter = new System.Windows.Forms.Timer(this.components);
             this.panelFilter = new System.Windows.Forms.Panel();
-            this.ctbFilter = new Subscene_Mass_Downloader_GUI.CTextBox();
             this.panelSeperator = new System.Windows.Forms.Panel();
             this.cbRegex = new System.Windows.Forms.CheckBox();
+            this.ctbFilter = new Subscene_Mass_Downloader_GUI.CTextBox();
+            this.lblSubProvider = new System.Windows.Forms.Label();
             this.panelAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPoster)).BeginInit();
             this.panelSave.SuspendLayout();
@@ -89,6 +91,8 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             // panelAction
             // 
+            this.panelAction.Controls.Add(this.lblSubProvider);
+            this.panelAction.Controls.Add(this.cbSubProvider);
             this.panelAction.Controls.Add(this.lblPosterStatus);
             this.panelAction.Controls.Add(this.lblSubsCount);
             this.panelAction.Controls.Add(this.pictureBoxPoster);
@@ -103,6 +107,19 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelAction.Name = "panelAction";
             this.panelAction.Size = new System.Drawing.Size(270, 338);
             this.panelAction.TabIndex = 2;
+            // 
+            // cbSubProvider
+            // 
+            this.cbSubProvider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSubProvider.FormattingEnabled = true;
+            this.cbSubProvider.Items.AddRange(new object[] {
+            "subscene.com",
+            "opensubtitle.info"});
+            this.cbSubProvider.Location = new System.Drawing.Point(138, 288);
+            this.cbSubProvider.Name = "cbSubProvider";
+            this.cbSubProvider.Size = new System.Drawing.Size(121, 21);
+            this.cbSubProvider.TabIndex = 7;
+            this.cbSubProvider.SelectedIndexChanged += new System.EventHandler(this.cbSubProvider_SelectedIndexChanged);
             // 
             // lblPosterStatus
             // 
@@ -144,10 +161,10 @@ namespace Subscene_Mass_Downloader_GUI
             // btnSearchTitle
             // 
             this.btnSearchTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSearchTitle.Location = new System.Drawing.Point(19, 312);
+            this.btnSearchTitle.Location = new System.Drawing.Point(19, 315);
             this.btnSearchTitle.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearchTitle.Name = "btnSearchTitle";
-            this.btnSearchTitle.Size = new System.Drawing.Size(118, 22);
+            this.btnSearchTitle.Size = new System.Drawing.Size(117, 22);
             this.btnSearchTitle.TabIndex = 5;
             this.btnSearchTitle.Text = "Search Title";
             this.btnSearchTitle.UseVisualStyleBackColor = true;
@@ -157,9 +174,9 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.btnDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDownload.Enabled = false;
-            this.btnDownload.Location = new System.Drawing.Point(142, 312);
+            this.btnDownload.Location = new System.Drawing.Point(138, 315);
             this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(118, 22);
+            this.btnDownload.Size = new System.Drawing.Size(121, 22);
             this.btnDownload.TabIndex = 5;
             this.btnDownload.Text = "Download Selected";
             this.btnDownload.UseVisualStyleBackColor = true;
@@ -271,7 +288,7 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.lblElapsed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblElapsed.AutoSize = true;
-            this.lblElapsed.Location = new System.Drawing.Point(621, 50);
+            this.lblElapsed.Location = new System.Drawing.Point(622, 50);
             this.lblElapsed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblElapsed.Name = "lblElapsed";
             this.lblElapsed.Size = new System.Drawing.Size(71, 13);
@@ -305,7 +322,7 @@ namespace Subscene_Mass_Downloader_GUI
             this.pbDownload.Location = new System.Drawing.Point(14, 30);
             this.pbDownload.Margin = new System.Windows.Forms.Padding(2);
             this.pbDownload.Name = "pbDownload";
-            this.pbDownload.Size = new System.Drawing.Size(687, 18);
+            this.pbDownload.Size = new System.Drawing.Size(688, 18);
             this.pbDownload.TabIndex = 5;
             this.toolTip1.SetToolTip(this.pbDownload, "Download Progress Bar");
             // 
@@ -317,14 +334,14 @@ namespace Subscene_Mass_Downloader_GUI
             this.tbPath.Margin = new System.Windows.Forms.Padding(3, 3, 22, 3);
             this.tbPath.Name = "tbPath";
             this.tbPath.ReadOnly = true;
-            this.tbPath.Size = new System.Drawing.Size(586, 20);
+            this.tbPath.Size = new System.Drawing.Size(587, 20);
             this.tbPath.TabIndex = 0;
             this.toolTip1.SetToolTip(this.tbPath, "Downloaded Subtitle(s) saved to this path");
             // 
             // btnSelectPath
             // 
             this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectPath.Location = new System.Drawing.Point(676, 5);
+            this.btnSelectPath.Location = new System.Drawing.Point(677, 5);
             this.btnSelectPath.Name = "btnSelectPath";
             this.btnSelectPath.Size = new System.Drawing.Size(26, 20);
             this.btnSelectPath.TabIndex = 1;
@@ -390,19 +407,6 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelFilter.Size = new System.Drawing.Size(437, 22);
             this.panelFilter.TabIndex = 6;
             // 
-            // ctbFilter
-            // 
-            this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctbFilter.Location = new System.Drawing.Point(0, 0);
-            this.ctbFilter.Name = "ctbFilter";
-            this.ctbFilter.Size = new System.Drawing.Size(378, 20);
-            this.ctbFilter.TabIndex = 5;
-            this.ctbFilter.WaterMark = "Filter";
-            this.ctbFilter.WaterMarkActiveForeColor = System.Drawing.Color.Gray;
-            this.ctbFilter.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctbFilter.WaterMarkForeColor = System.Drawing.Color.Gray;
-            this.ctbFilter.TextChanged += new System.EventHandler(this.ctbFilter_TextChanged);
-            // 
             // panelSeperator
             // 
             this.panelSeperator.BackColor = System.Drawing.SystemColors.Control;
@@ -424,6 +428,28 @@ namespace Subscene_Mass_Downloader_GUI
             this.cbRegex.Text = "Regex";
             this.cbRegex.UseVisualStyleBackColor = true;
             this.cbRegex.CheckedChanged += new System.EventHandler(this.cbRegex_CheckedChanged);
+            // 
+            // ctbFilter
+            // 
+            this.ctbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctbFilter.Location = new System.Drawing.Point(0, 0);
+            this.ctbFilter.Name = "ctbFilter";
+            this.ctbFilter.Size = new System.Drawing.Size(378, 20);
+            this.ctbFilter.TabIndex = 5;
+            this.ctbFilter.WaterMark = "Filter";
+            this.ctbFilter.WaterMarkActiveForeColor = System.Drawing.Color.Gray;
+            this.ctbFilter.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctbFilter.WaterMarkForeColor = System.Drawing.Color.Gray;
+            this.ctbFilter.TextChanged += new System.EventHandler(this.ctbFilter_TextChanged);
+            // 
+            // lblSubProvider
+            // 
+            this.lblSubProvider.AutoSize = true;
+            this.lblSubProvider.Location = new System.Drawing.Point(42, 291);
+            this.lblSubProvider.Name = "lblSubProvider";
+            this.lblSubProvider.Size = new System.Drawing.Size(90, 13);
+            this.lblSubProvider.TabIndex = 9;
+            this.lblSubProvider.Text = "Subtitle Provider :";
             // 
             // mainWindow
             // 
@@ -483,6 +509,8 @@ namespace Subscene_Mass_Downloader_GUI
         private System.Windows.Forms.Panel panelFilter;
         private System.Windows.Forms.Panel panelSeperator;
         private System.Windows.Forms.CheckBox cbRegex;
+        private System.Windows.Forms.ComboBox cbSubProvider;
+        private System.Windows.Forms.Label lblSubProvider;
     }
 }
 

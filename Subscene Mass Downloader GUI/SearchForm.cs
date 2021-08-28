@@ -11,10 +11,13 @@ namespace Subscene_Mass_Downloader_GUI
     public partial class SearchForm : Form
     {
         private static Button _exitBtn;
-        public SearchForm()
+        public ISubtitleProvider subtitleProvider;
+        public SearchForm(ISubtitleProvider subProvider)
         {
             InitializeComponent();
-
+            subtitleProvider = subProvider;
+            if ((subtitleProvider as SubsceneProvider) == null)
+                btnPopularShow.Enabled = false;
             tbTitle.Text = "breaking";
             AcceptButton = btnSearch;
 
@@ -46,19 +49,7 @@ namespace Subscene_Mass_Downloader_GUI
             lblShowCount.Text = $"Found {shows.Count} Shows:";
         }
 
-        private async Task<string> GetShowPageAsync(string title)
-        {
-            try
-            {
 
-                var page = await WebHelper.DownloadStringAsync(string.Format(ShowManager.subSearchApi, title));
-                return HttpUtility.HtmlDecode(page);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         private async Task PauseSearchButton()
         {
             btnSearch.Enabled = false;
@@ -68,7 +59,7 @@ namespace Subscene_Mass_Downloader_GUI
         private void Show_Click(object sender, EventArgs e)
         {
             ShowModel show = (ShowModel)((LinkLabel)sender).Tag;
-            Owner.Controls["panelAction"].Controls["tbUrl"].Text = string.Format(SubtitleManager.baseUrl, show.Link);
+            Owner.Controls["panelAction"].Controls["tbUrl"].Text = string.Format(subtitleProvider.SubtitleApi, show.Link);
             Button btn = Owner.Controls["panelAction"].Controls["btnGetSubsList"] as Button;
             btn.PerformClick();
             this.Close();
@@ -77,12 +68,11 @@ namespace Subscene_Mass_Downloader_GUI
         {
             _ = PauseSearchButton();
             string page = String.Empty;
-            List<ShowModel> showList = null;
-
+            IEnumerable<ShowModel> showList;
             try
             {
-                page = await GetShowPageAsync(tbTitle.Text);
-                showList = ShowManager.ParseShowPage(page);
+                page = await subtitleProvider.LoadPageAsync(string.Format(subtitleProvider.SubtitleSearchApi, tbTitle.Text));
+                showList = subtitleProvider.GetShowList(page);
             }
             catch (Exception ex)
             {
@@ -123,7 +113,7 @@ namespace Subscene_Mass_Downloader_GUI
         {
             try
             {
-                var page = await WebHelper.DownloadStringAsync(string.Format(SubtitleManager.baseUrl, ""));
+                var page = await WebHelper.DownloadStringAsync(string.Format(subtitleProvider.SubtitleApi, ""));
                 page = HttpUtility.HtmlDecode(page);
                 var popularMatch = new RegexMatch(page, RegexPattern.PopularShow, RegexPattern.PopularShowSubCount);
                 if (popularMatch.Results[0].Matches.Count != popularMatch.Results[1].Matches.Count)
@@ -151,6 +141,16 @@ namespace Subscene_Mass_Downloader_GUI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SearchForm_Load_1(object sender, EventArgs e)
+        {
+            var check = subtitleProvider as SubsceneProvider;
+            if (check is null)
+            {
+                MessageBox.Show("Searching feature is not\nyet implemented for this website!", "SMD", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _exitBtn.PerformClick();
             }
         }
     }

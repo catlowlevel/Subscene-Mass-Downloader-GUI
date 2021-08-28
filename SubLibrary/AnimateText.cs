@@ -30,7 +30,7 @@ namespace SubLibrary
                     if (IsRunning == false) break;
                 }
             }
-            if (string.IsNullOrEmpty(DefaultText))
+            if (string.IsNullOrEmpty(DefaultText) == false)
             {
                 ControlObj.Text = DefaultText;
             }

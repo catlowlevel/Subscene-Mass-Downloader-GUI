@@ -34,9 +34,9 @@ namespace Subscene_Mass_Downloader_GUI
             this.btnSearch = new System.Windows.Forms.Button();
             this.panelShowList = new System.Windows.Forms.Panel();
             this.panelAction = new System.Windows.Forms.Panel();
+            this.btnPopularShow = new System.Windows.Forms.Button();
             this.lblShowCount = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.btnPopularShow = new System.Windows.Forms.Button();
             this.panelAction.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,17 +44,19 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.tbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTitle.Location = new System.Drawing.Point(12, 29);
+            this.tbTitle.Location = new System.Drawing.Point(10, 23);
+            this.tbTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbTitle.Name = "tbTitle";
-            this.tbTitle.Size = new System.Drawing.Size(527, 22);
+            this.tbTitle.Size = new System.Drawing.Size(423, 20);
             this.tbTitle.TabIndex = 0;
             // 
             // btnSearch
             // 
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearch.Location = new System.Drawing.Point(456, 57);
+            this.btnSearch.Location = new System.Drawing.Point(366, 46);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(83, 30);
+            this.btnSearch.Size = new System.Drawing.Size(66, 24);
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -64,9 +66,10 @@ namespace Subscene_Mass_Downloader_GUI
             // 
             this.panelShowList.AutoScroll = true;
             this.panelShowList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelShowList.Location = new System.Drawing.Point(0, 97);
+            this.panelShowList.Location = new System.Drawing.Point(0, 78);
+            this.panelShowList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panelShowList.Name = "panelShowList";
-            this.panelShowList.Size = new System.Drawing.Size(553, 327);
+            this.panelShowList.Size = new System.Drawing.Size(444, 261);
             this.panelShowList.TabIndex = 2;
             // 
             // panelAction
@@ -80,50 +83,56 @@ namespace Subscene_Mass_Downloader_GUI
             this.panelAction.Controls.Add(this.tbTitle);
             this.panelAction.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelAction.Location = new System.Drawing.Point(0, 0);
+            this.panelAction.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panelAction.Name = "panelAction";
-            this.panelAction.Size = new System.Drawing.Size(553, 97);
+            this.panelAction.Size = new System.Drawing.Size(444, 78);
             this.panelAction.TabIndex = 3;
-            // 
-            // lblShowCount
-            // 
-            this.lblShowCount.AutoSize = true;
-            this.lblShowCount.Location = new System.Drawing.Point(10, 70);
-            this.lblShowCount.Name = "lblShowCount";
-            this.lblShowCount.Size = new System.Drawing.Size(0, 17);
-            this.lblShowCount.TabIndex = 3;
-            // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(9, 9);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(83, 17);
-            this.lblTitle.TabIndex = 2;
-            this.lblTitle.Text = "Show Name";
             // 
             // btnPopularShow
             // 
             this.btnPopularShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPopularShow.Location = new System.Drawing.Point(306, 57);
+            this.btnPopularShow.Location = new System.Drawing.Point(246, 46);
+            this.btnPopularShow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnPopularShow.Name = "btnPopularShow";
-            this.btnPopularShow.Size = new System.Drawing.Size(144, 30);
+            this.btnPopularShow.Size = new System.Drawing.Size(115, 24);
             this.btnPopularShow.TabIndex = 4;
             this.btnPopularShow.Text = "Popular Show";
             this.btnPopularShow.UseVisualStyleBackColor = true;
             this.btnPopularShow.Click += new System.EventHandler(this.btnPopularShow_Click);
             // 
+            // lblShowCount
+            // 
+            this.lblShowCount.AutoSize = true;
+            this.lblShowCount.Location = new System.Drawing.Point(8, 56);
+            this.lblShowCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblShowCount.Name = "lblShowCount";
+            this.lblShowCount.Size = new System.Drawing.Size(0, 13);
+            this.lblShowCount.TabIndex = 3;
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Location = new System.Drawing.Point(7, 7);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(65, 13);
+            this.lblTitle.TabIndex = 2;
+            this.lblTitle.Text = "Show Name";
+            // 
             // SearchForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(553, 424);
+            this.ClientSize = new System.Drawing.Size(444, 339);
             this.Controls.Add(this.panelShowList);
             this.Controls.Add(this.panelAction);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(571, 269);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MinimumSize = new System.Drawing.Size(460, 223);
             this.Name = "SearchForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Search Show";
+            this.Load += new System.EventHandler(this.SearchForm_Load_1);
             this.panelAction.ResumeLayout(false);
             this.panelAction.PerformLayout();
             this.ResumeLayout(false);

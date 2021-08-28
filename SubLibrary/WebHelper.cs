@@ -25,15 +25,14 @@ namespace SubLibrary
                 throw ex;
             }
         }
-        public static async Task<string> DownloadFileAsync(string url, string fileName, int retryCount = 0)
+        public static async Task<string> DownloadFileAsync(string url, string fileName, string ext = ".zip", int retryCount = 0)
         {
             try
             {
                 var req = CreateRequest(url);
                 using (var response = (HttpWebResponse)await req.GetResponseAsync())
                 {
-
-                    var outputFile = Path.Combine(fileName + ".zip");
+                    var outputFile = Path.Combine(fileName + ext);
 
                     var original = outputFile;
                     int i = 1;
@@ -74,7 +73,7 @@ namespace SubLibrary
                 }
 
                 await Task.Delay(1000 * (retryCount + 1));
-                return await DownloadFileAsync(url, fileName, ++retryCount);
+                return await DownloadFileAsync(url, fileName, ext,++retryCount);
             }
         }
         private static async Task<string> getResponseStringAsync(HttpWebRequest request)

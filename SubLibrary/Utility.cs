@@ -43,7 +43,8 @@ namespace SubLibrary
                 var timer = Task.Delay(250); // you might want to make this configurable
                 // Wait until either all tasks have completed OR 250ms passed
                 await Task.WhenAny(whenAllTask, timer);
-                reportProgressAction(tasks);
+
+                reportProgressAction?.Invoke(tasks);
                 if (whenAllTask.IsCompleted)
                 {
                     return;

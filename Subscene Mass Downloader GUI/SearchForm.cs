@@ -72,7 +72,7 @@ namespace Subscene_Mass_Downloader_GUI
             try
             {
                 page = await subtitleProvider.LoadPageAsync(string.Format(subtitleProvider.SubtitleSearchApi, tbTitle.Text));
-                showList = subtitleProvider.GetShowList(page);
+                showList = subtitleProvider.SearchShowList(page);
             }
             catch (Exception ex)
             {
@@ -115,25 +115,27 @@ namespace Subscene_Mass_Downloader_GUI
             {
                 var page = await WebHelper.DownloadStringAsync(string.Format(subtitleProvider.SubtitleApi, ""));
                 page = HttpUtility.HtmlDecode(page);
-                var popularMatch = new RegexMatch(page, (subtitleProvider as SubsceneProvider).PopularShow, (subtitleProvider as SubsceneProvider).PopularShowSubCount);
-                if (popularMatch.Results[0].Matches.Count != popularMatch.Results[1].Matches.Count)
-                {
-                    MessageBox.Show("Fail To Match Popular Show Regex");
-                    return;
-                }
-                List<ShowModel> showList = new List<ShowModel>();
-                for (int i = 0; i < popularMatch.Results[0].Matches.Count; i++)
-                {
-                    var show = popularMatch.Results[0].Matches[i];
-                    var showSubCount = popularMatch.Results[1].Matches[i][1];
-                    ShowModel showModel = new ShowModel
-                    {
-                        Link = show[1],
-                        Name = show[2],
-                        SubCount = $"{showSubCount} Subtitles",
-                    };
-                    showList.Add(showModel);
-                }
+                
+                //var popularMatch = new RegexMatch(page, (subtitleProvider as SubsceneProvider).PopularShow, (subtitleProvider as SubsceneProvider).PopularShowSubCount);
+                //if (popularMatch.Results[0].Matches.Count != popularMatch.Results[1].Matches.Count)
+                //{
+                //    MessageBox.Show("Fail To Match Popular Show Regex");
+                //    return;
+                //}
+                //List<ShowModel> showList = new List<ShowModel>();
+                //for (int i = 0; i < popularMatch.Results[0].Matches.Count; i++)
+                //{
+                //    var show = popularMatch.Results[0].Matches[i];
+                //    var showSubCount = popularMatch.Results[1].Matches[i][1];
+                //    ShowModel showModel = new ShowModel
+                //    {
+                //        Link = show[1],
+                //        Name = show[2],
+                //        SubCount = $"{showSubCount} Subtitles",
+                //    };
+                //    showList.Add(showModel);
+                //}
+                List<ShowModel> showList = new List<ShowModel>(subtitleProvider.MainShowList(page));
 
                 listShows(showList);
 

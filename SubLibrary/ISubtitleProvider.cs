@@ -16,7 +16,9 @@ namespace SubLibrary
         IEnumerable<SubtitleModel> GetSubtitleList(string page);
         Task<string> DownloadSubtitleAsync(SubtitleModel subtitle, string path);
         Task MassDownloadSubtitleAsync(IEnumerable<SubtitleModel> subtitles, string path, Action<List<Task<string>>> reportProgressAction);
-        IEnumerable<ShowModel> GetShowList(string page);
+        IEnumerable<ShowModel> SearchShowList(string page);
+        IEnumerable<ShowModel> MainShowList(string page);
+
         ShowInfoModel GetShowInfo(string page);
     }
 }

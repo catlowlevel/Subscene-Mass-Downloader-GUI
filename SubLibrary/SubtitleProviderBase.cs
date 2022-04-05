@@ -38,7 +38,7 @@ namespace SubLibrary
             throw new NotImplementedException();
         }
 
-        virtual public IEnumerable<ShowModel> GetShowList(string page)
+        virtual public IEnumerable<ShowModel> SearchShowList(string page)
         {
             throw new NotImplementedException();
         }
@@ -79,6 +79,11 @@ namespace SubLibrary
             {
                 throw ex;
             }
+        }
+
+        virtual public IEnumerable<ShowModel> MainShowList(string page)
+        {
+            throw new NotImplementedException();
         }
     }
 }

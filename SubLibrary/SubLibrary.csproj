@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.11.42.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.42\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -50,9 +53,9 @@
     <Compile Include="AnimateText.cs" />
     <Compile Include="ISubtitleProvider.cs" />
     <Compile Include="OpenSubtitleProvider.cs" />
+    <Compile Include="RegexMatch.cs" />
     <Compile Include="ShowInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegexMatch.cs" />
     <Compile Include="ShowModel.cs" />
     <Compile Include="SubtitleModel.cs" />
     <Compile Include="SubsceneProvider.cs" />
